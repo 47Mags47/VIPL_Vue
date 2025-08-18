@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@services": ["./resources/js/services/*"],
+            "@components": ["./resources/views/components/*"],
+        }
+    },
+}

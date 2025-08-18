@@ -1,0 +1,59 @@
+
+.flash-messages-container
+    position: absolute
+    right: 0
+
+    padding: 15px 50px 15px 15px
+
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 7px
+
+    overflow: hidden
+
+    z-index: 999
+
+.flash-message-container
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 7px
+
+@keyframes slide
+    0%
+        opacity: 0;
+        transform: translateX(calc(200%));
+    15%
+        opacity: 1;
+        transform: translateX(0);
+    85%
+        opacity: 1;
+        transform: translateX(0);
+    100%
+        opacity: 0;
+        transform: translateX(calc(200%));
+
+.flash-message
+    position: relative
+
+    padding: 7px 10px
+    border-radius: 7px
+
+    display: flex
+    justify-content: center
+    gap: 7px
+
+    box-shadow: 2px 3px 8px 1px #ccc
+
+    transform: translateX(calc(200%))
+
+    animation: slide 5s ease
+
+    &.error svg
+        color: red
+    &.warning svg
+        color: orange
+    &.success svg
+        color: green
+
