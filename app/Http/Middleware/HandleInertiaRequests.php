@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\CurrentUserResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -30,7 +31,7 @@ class HandleInertiaRequests extends Middleware
         $shared = parent::share($request);
 
         if (in_array('auth', $request->route()->middleware()))
-            $shared['current_user'] = user()->toResource();
+            $shared['current_user'] = CurrentUserResource::make(user());
 
         if(!in_array('shared', $shared))
             $shared['flash'] = [];

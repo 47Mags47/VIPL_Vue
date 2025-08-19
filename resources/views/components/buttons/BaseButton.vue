@@ -42,8 +42,5 @@ export default {
 
     cursor: pointer
 
-    transition: .3s
-    &:hover
-        background: $blue-button-backgroun-hover
-        box-shadow: $blue-button-shadow
+    transition: .5s
 </style>

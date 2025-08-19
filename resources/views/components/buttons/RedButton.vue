@@ -1,7 +1,6 @@
 <script>
 import BaseButton from './BaseButton.vue'
 
-
 export default {
     components: {
         BaseButton
@@ -10,13 +9,13 @@ export default {
 </script>
 
 <template>
-    <BaseButton color="blue" />
+    <BaseButton color="red" />
 </template>
 
 <style lang="sass" scoped>
-.blue-button
-    background: $blue-button-background
+.red-button
+    background: $red-button-background
     &:hover
-        background: $blue-button-backgroun-hover
-        box-shadow: $blue-button-shadow
+        background: $red-button-backgroun-hover
+        box-shadow: $red-button-shadow
 </style>

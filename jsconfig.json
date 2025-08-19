@@ -4,6 +4,7 @@
         "paths": {
             "@services": ["./resources/js/services/*"],
             "@components": ["./resources/views/components/*"],
+            "@layouts": ["./resources/views/layouts/*"],
         }
     },
 }

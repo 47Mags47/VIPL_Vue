@@ -11,7 +11,12 @@ class BankContract extends BaseModel
 
     ### Настройки
     ##################################################
-    //
+    protected function casts(): array
+    {
+        return [
+            'signed_at' => 'datetime',
+        ];
+    }
 
     ### Методы
     ##################################################

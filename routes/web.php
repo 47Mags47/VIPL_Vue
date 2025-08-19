@@ -9,7 +9,9 @@ Route::controller(SessionController::class)->name('session.')->group(function(){
     Route::post('/login', 'store')->middleware('guest')->name('store');
 });
 
-Route::resource('bank-contracts', BankContractController::class);
+Route::middleware('auth')->group(function(){
+    Route::resource('bank-contracts', BankContractController::class);
+});
 
 Route::get('/test', function(){
     dump(user()->hasPermission('bank_contract-viewAny'));

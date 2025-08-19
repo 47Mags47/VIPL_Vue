@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBankContractRequest;
 use App\Http\Requests\UpdateBankContractRequest;
 use App\Models\BankContract;
+use Inertia\Inertia;
 
 class BankContractController extends Controller
 {
@@ -13,7 +14,9 @@ class BankContractController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('pages/bank-contracts/index', [
+            'bank-contracts' => fn() => getResource(BankContract::class),
+        ]);
     }
 
     /**

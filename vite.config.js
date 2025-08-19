@@ -12,6 +12,7 @@ export default defineConfig({
             "@components": "/resources/views/components",
             "@services": "/resources/js/services",
             "@style": "/resources/sass/components",
+            "@src": "/public/src",
         },
     },
     css: {

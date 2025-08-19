@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -60,6 +61,14 @@ class User extends BaseModel implements
 
     ### Связи
     ##################################################
+    public function status() : BelongsTo{
+        return $this->belongsTo(UserStatus::class, 'user_status_id');
+    }
+
+    public function role() : BelongsTo{
+        return $this->belongsTo(UserRole::class, 'user_role_id');
+    }
+
     public function permissions(): HasManyThrough
     {
         return $this->hasManyThrough(UserPermission::class, UserRoleUserPermission::class, 'user_role_id', 'id', 'user_role_id', 'user_permission_id');
