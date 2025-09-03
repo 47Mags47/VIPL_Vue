@@ -38,6 +38,7 @@ export default {
 label
     padding-left: 7px
     color: #333
+    font-weight: bold
 
 .horizontal-form-item
     display: flex

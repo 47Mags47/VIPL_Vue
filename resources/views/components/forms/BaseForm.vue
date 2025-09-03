@@ -1,27 +1,38 @@
 <script>
-import { router } from '@inertiajs/vue3'
+import { Form, router, usePage } from '@inertiajs/vue3'
 import { BlueButton } from '../buttons'
-
 
 export default {
     components: {
+        Form,
         BlueButton
     },
     props: {
-        name: {
+        className: {
             type: String,
         },
         header: {
             type: [String, null],
         },
-        smb: {
+        sbm: {
             type: String,
             default: 'Отправить'
+        },
+        action: {
+            type: String,
+            default: location.href
+        },
+        method: {
+            type: String,
+            default: 'post',
+            validator(value) {
+                return ['get', 'post', 'put', 'delete'].includes(value)
+            }
         },
         onSubmit: {
             type: Function,
             default(e) {
-                router.post(location.href, new FormData(e.target))
+                router.post(this.action, new FormData(e.target))
             }
         },
     },
@@ -30,45 +41,37 @@ export default {
         'footer',
         'default'
     ],
-    methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            this.onSubmit(e)
-        }
-    },
     computed: {
+        errors: () => usePage().props.errors,
         typeClass() {
-            return this.name !== undefined ? this.name : ''
+            return this.className !== undefined ? this.className : ''
         },
         containerTypeClass() {
-            return this.name !== undefined ? `${this.name}-container` : ''
-        }
-    }
+            return this.className !== undefined ? `${this.className}-container` : ''
+        },
+    },
 }
 </script>
 
 <template>
     <div :class="['form-container', containerTypeClass]">
-        <form :class="['form', typeClass]" @submit="handleSubmit">
+        <Form :action :method :class="['form', typeClass]">
             <div class="form-header" v-if="header !== undefined">
                 <h3>{{ header }}</h3>
+            </div>
+            <div class="form-errors">
+                <div class="form-error" v-if="'form' in errors">{{ errors.form }}</div>
             </div>
             <div class="form-content" v-if="$slots.default">
                 <slot name="default" />
             </div>
             <div class="form-buttons">
                 <slot name="buttons" />
-                <BlueButton :text="smb" />
+                <BlueButton :text="sbm" />
             </div>
             <div class="form-footer" v-if="$slots.footer">
                 <slot name="footer" />
             </div>
-        </form>
+        </Form>
     </div>
 </template>
-
-<style lang="sass" scoped>
-.form-container
-    width: 100%
-    height: 100%
-</style>

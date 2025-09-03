@@ -10,5 +10,5 @@ export default {
 </script>
 
 <template>
-    <BaseInput type="password" />
+    <BaseInput type="password" placeholder="" />
 </template>

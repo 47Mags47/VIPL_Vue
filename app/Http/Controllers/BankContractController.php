@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBankContractRequest;
 use App\Http\Requests\UpdateBankContractRequest;
 use App\Models\BankContract;
+use App\Models\Writer;
+use App\Models\WriterType;
 use Inertia\Inertia;
 
 class BankContractController extends Controller
@@ -24,7 +26,9 @@ class BankContractController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('pages/bank-contracts/create', [
+            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id))
+        ]);
     }
 
     /**
@@ -32,15 +36,9 @@ class BankContractController extends Controller
      */
     public function store(StoreBankContractRequest $request)
     {
-        //
-    }
+        BankContract::create($request->only('number', 'signed_at', 'writer_id'));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(BankContract $bankContract)
-    {
-        //
+        return redirect()->route('bank-contracts.index')->with('success', 'Запись успешно создана');
     }
 
     /**
@@ -48,7 +46,10 @@ class BankContractController extends Controller
      */
     public function edit(BankContract $bankContract)
     {
-        //
+        return Inertia::render('pages/bank-contracts/edit', [
+            'bankContract' => fn() => getResource($bankContract),
+            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id))
+        ]);
     }
 
     /**
@@ -56,7 +57,9 @@ class BankContractController extends Controller
      */
     public function update(UpdateBankContractRequest $request, BankContract $bankContract)
     {
-        //
+        $bankContract->update($request->only('number', 'signed_at', 'writer_id'));
+
+        return redirect()->route('bank-contracts.index')->with('success', 'Запись успешно обновлена');
     }
 
     /**
@@ -64,6 +67,8 @@ class BankContractController extends Controller
      */
     public function destroy(BankContract $bankContract)
     {
-        //
+        $bankContract->delete();
+
+        return back()->with('success', 'Запись удалена');
     }
 }

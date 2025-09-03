@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {
+            "@helpers": ["./resources/js/helpers/*"],
             "@services": ["./resources/js/services/*"],
             "@components": ["./resources/views/components/*"],
             "@layouts": ["./resources/views/layouts/*"],

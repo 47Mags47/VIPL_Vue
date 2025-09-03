@@ -1,24 +1,21 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
 import userLogo from '@src/user_logo.png'
 
 export default {
-    setup() {
-        const user = computed(() => usePage().props.current_user.data)
-        return { user }
-    },
     computed: {
+        user: () => usePage().props.current_user?.data ?? {},
         userName() {
-            let userName = this.user.first_name
+            let lastName = this.user?.last_name ?? ''
+            let firstName = this.user?.first_name ?? ''
+            let MiddleName = this.user?.middle_name ?? ''
 
-            if (this.user.last_name !== null)
-                userName = userName + ' ' + this.user.last_name[0].toUpperCase() + '.'
-
-            if (this.user.middle_name !== null)
-                userName = userName + ' ' + this.user.middle_name[0].toUpperCase() + '.'
-
-            return userName
+            return lastName
+            + ' '
+            + (firstName !== '' ? (firstName[0] + '.') : '').toUpperCase()
+            + ' '
+            + (MiddleName !== '' ? (MiddleName[0] + '.') : '').toUpperCase()
+            + ' '
         },
         userLogo() {
             return userLogo
@@ -51,7 +48,7 @@ export default {
 
     border: 2px solid $header-color
 
-    border-radius: 7px
+    border-radius: $default-border-radius
     .user-logo
         width: 30px
         height: 30px

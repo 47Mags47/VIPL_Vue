@@ -1,4 +1,5 @@
 <script>
+import { usePage } from '@inertiajs/vue3';
 import MainMeny from './MainMeny.vue';
 import UserProfile from './UserProfile.vue';
 
@@ -6,6 +7,9 @@ export default{
     components: {
         MainMeny,
         UserProfile
+    },
+    computed: {
+        current_user: () => usePage().props.current_user
     }
 }
 </script>
@@ -15,7 +19,7 @@ export default{
         <div class="logo-container">
             VIPL
         </div>
-        <UserProfile />
+        <UserProfile v-if="current_user" />
         <MainMeny />
     </header>
 </template>

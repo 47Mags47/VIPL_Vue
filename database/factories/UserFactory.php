@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Division;
 use App\Models\UserRole;
 use App\Models\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,16 +20,19 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = rand(1,2) === 1 ? 'male' : 'female';
+
         return [
-            'first_name'        => $this->faker->firstName(),
-            'last_name'         => $this->faker->lastName(),
-            'middle_name'       => $this->faker->lastName(),
+            'first_name'        => $this->faker->firstName($gender),
+            'last_name'         => $this->faker->lastName($gender),
+            'middle_name'       => $this->faker->firstName('male') . ($gender === 'male' ? 'ов' : 'ова'),
             'login'             => $this->faker->unique()->word(),
             'email'             => $this->faker->email(),
             'password'          => Hash::make($this->faker->word),
             'password_expired'  => (bool) rand(0, 1),
-            'user_status_id'    => UserStatus::all()->random()->id,
-            'user_role_id'      => UserRole::all()->random()->id,
+            'division_id'       => Division::all()->random()->id,
+            'status_id'         => UserStatus::getRandomId(),
+            'role_id'           => UserRole::getRandomId(),
             'email_verified_at' => now()->subDay(rand(1, 364)),
             'deleted_at'        => rand(0, 10) === 10 ? now() : null
         ];

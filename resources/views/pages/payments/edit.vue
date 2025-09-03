@@ -1,0 +1,56 @@
+<script>
+import { usePage } from '@inertiajs/vue3';
+import { AuthLayout } from '@layouts';
+import { ResourceForm } from '@components'
+
+export default {
+    components: {
+        AuthLayout,
+        ResourceForm,
+    },
+    computed: {
+        payment: () => usePage().props.payment.data,
+        laws: () => usePage().props.laws.data
+    },
+}
+</script>
+
+<template>
+    <AuthLayout>
+        <ResourceForm
+            header="Редактировать запись (Закон)"
+            sbm="Сохранить"
+            method="put"
+            :action="route('payments.update', { payment: payment.id })"
+            :inputs="[
+                {
+                    inputType: 'string',
+                    name: 'code',
+                    label: 'Код',
+                    value: payment.code
+                },
+                {
+                    inputType: 'string',
+                    name: 'name',
+                    label: 'Наименование',
+                    value: payment.name
+                },
+                {
+                    inputType: 'string',
+                    name: 'kbk',
+                    label: 'КБК',
+                    value: payment.kbk
+                },
+                {
+                    inputType: 'select',
+                    name: 'law_id',
+                    label: 'Закон',
+                    options: laws,
+                    titleIndex: 'code',
+                    value: payment.law
+                },
+            ]"
+        >
+        </ResourceForm>
+    </AuthLayout>
+</template>

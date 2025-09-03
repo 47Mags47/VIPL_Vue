@@ -8,6 +8,7 @@ const env = loadEnv("all", process.cwd());
 export default defineConfig({
     resolve: {
         alias: {
+            "@helpers": "/resources/js/helpers",
             "@layouts": "/resources/views/layouts",
             "@components": "/resources/views/components",
             "@services": "/resources/js/services",

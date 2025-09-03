@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\BankContract;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBankContractRequest extends FormRequest
@@ -14,8 +15,20 @@ class StoreBankContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number' => ['required', 'string', 'min:1', 'max:255'],
-            'signed_at' => ['required'. 'date', 'before:now'],
+            'number' => ['required', 'string', 'min:2', 'max:255', 'unique:' . BankContract::class . ',number'],
+            'signed_at' => ['required', 'date_format:Y-m-d'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'number.unique' => 'Договор с таким номером уже существует',
         ];
     }
 }

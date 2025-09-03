@@ -17,3 +17,9 @@ export default {
         <slot />
     </BaseWebLayout>
 </template>
+
+<style lang="sass">
+.auth-layout
+    display: grid
+    grid-template-rows: $header-height calc(100vh - $header-height)
+</style>

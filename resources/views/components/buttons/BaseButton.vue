@@ -14,13 +14,21 @@ export default {
         },
         text: {
             type: String
+        },
+        onClick: {
+            type: Function
         }
-    }
+    },
+    slots: [
+        'default',
+    ]
 }
 </script>
 
 <template>
-    <button :class="['button', `${color}-button`]">{{ text }}</button>
+    <button :class="['button', `${color}-button`]" @click="onClick">
+        <slot />
+    </button>
 </template>
 
 <style lang="sass" scoped>
@@ -34,7 +42,7 @@ export default {
 
     padding: 5px 10px
 
-    border-radius: 7px
+    border-radius: $default-border-radius
 
     font-size: 1rem
     font-weight: 600

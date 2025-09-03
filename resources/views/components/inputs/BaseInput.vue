@@ -8,7 +8,7 @@ export default {
     },
     props: {
         type: {
-            type: [String, null],
+            type: String,
             default: 'text'
         },
         name: {
@@ -19,13 +19,15 @@ export default {
             type: String,
         },
         value: {
-            type: [String, Number, Boolean]
+            type: [String, Number, Boolean],
+            default: null
         },
         label: {
             type: String
         },
         placeholder: {
             type: String,
+            default: ''
         },
         disabled: {
             type: Boolean,
@@ -44,26 +46,52 @@ export default {
             default: {
                 position: 'horizontal'
             }
-        }
-    },
-    computed: {
-        currentValue: {
-            get() {
-                return this.value
-            },
-            set(value) {
-                this.$emit('update:value', value)
-            }
         },
+        isFormItem: {
+            type: Boolean,
+            default: true
+        },
+        onChange: {
+            type: Function,
+            default: () => {}
+        },
+        onInput: {
+            type: Function,
+            default: () => {}
+        }
     },
 }
 </script>
 
 <template>
-    <FormItem :name="name" :label="label" :type="item.position">
-        <input :type :name :id="id ?? name" :placeholder="placeholder ?? name" :disabled :autocomplete :readonly
-            v-model="currentValue">
+    <FormItem :name :label :type="item.position" v-if="isFormItem">
+        <input
+            :type
+            :id="id ?? name"
+            :name
+            :value
+            :placeholder
+            :disabled
+            :autocomplete
+            :readonly
+            @change="(e) => onChange(e.target.value)"
+            @input="(e) => onInput(e.target.value)"
+        >
     </FormItem>
+
+    <input
+        v-else
+        :type
+        :id="id ?? name"
+        :name
+        :value
+        :placeholder
+        :disabled
+        :autocomplete
+        :readonly
+        @change="(e) => onChange(e.target.value)"
+        @input="(e) => onInput(e.target.value)"
+    >
 </template>
 
 <style lang="sass" scoped>

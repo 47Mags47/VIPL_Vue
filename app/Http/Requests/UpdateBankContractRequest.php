@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\BankContract;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBankContractRequest extends FormRequest
@@ -14,8 +15,8 @@ class UpdateBankContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number' => ['required', 'string', 'min:1', 'max:255'],
-            'signed_at' => ['required' . 'date', 'before:now'],
+            'number' => ['required', 'string', 'min:1', 'max:255', 'unique:'. BankContract::class .',number,' . $this->route('bank_contract')->id],
+            'signed_at' => ['required', 'date_format:Y-m-d'],
         ];
     }
 }

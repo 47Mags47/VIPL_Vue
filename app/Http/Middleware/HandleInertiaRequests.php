@@ -30,14 +30,20 @@ class HandleInertiaRequests extends Middleware
     {
         $shared = parent::share($request);
 
+        // Добавляет текущего пользователя к ответу
         if (in_array('auth', $request->route()->middleware()))
             $shared['current_user'] = CurrentUserResource::make(user());
 
+        // Добавляет параметры фильтрации к ответу
+        if($request->input('filters') !== null)
+            $shared['filters'] = $request->input('filters');
+
+        // Добавляет flash уведомления к ответу
         if(!in_array('shared', $shared))
             $shared['flash'] = [];
 
-        if ($request->session()->has('message'))
-            $shared['flash']['success'][] = $request->session()->get('message');
+        if ($request->session()->has('success'))
+            $shared['flash']['success'][] = $request->session()->get('success');
 
         if ($request->session()->has('error'))
             $shared['flash']['error'][] = $request->session()->get('error');

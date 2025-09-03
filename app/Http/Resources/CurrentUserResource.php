@@ -20,7 +20,7 @@ class CurrentUserResource extends JsonResource
             'last_name'         => $this->last_name,
             'middle_name'       => $this->middle_name,
             'email'             => $this->email,
-            'password_expired'  => $this->password_expired,
+
             'status'            => [
                 'id'    => $this->status->id,
                 'name'  => $this->status->name,
@@ -29,7 +29,6 @@ class CurrentUserResource extends JsonResource
                 'id'    => $this->role->id,
                 'name'  => $this->role->name,
             ],
-            'email_verified_at' => $this->email_verified_at->format('Y-m-d'),
             'permissions' => $this->permissions->map(function($permission){
                 return $permission->code;
             }),

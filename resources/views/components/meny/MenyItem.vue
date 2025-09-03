@@ -37,7 +37,7 @@ export default {
                 </ul>
             </template>
             <template v-else>
-                <Link href="" class="meny-item-content">{{ title }}</Link>
+                <Link :href class="meny-item-content">{{ title }}</Link>
             </template>
         </li>
     </template>
@@ -49,23 +49,46 @@ export default {
 </template>
 
 <style lang="sass">
+@keyframes show
+    0%
+        display: none
+        opacity: 0%
+    1%
+        display: flex
+        opacity: 0%
+    100%
+        display: flex
+        opacity: 100%
+@keyframes close
+    0%
+        display: flex
+        opacity: 100%
+    100%
+        display: none
+        opacity: 0%
+
 .meny-item-container
     position: relative
 
     display: flex
     align-items: center
     gap: 5px
+    padding: 5px
 
-    border-radius: 3px
+    background: $meny-item-background
+    border-radius: 5px
 
     transition: .5s
 
     cursor: pointer
     &:hover
-        background: #eee
-    &:hover .meny-item-submeny-container
-        display: block
+        background: $meny-item-background-hover
+
+    &:hover>.meny-item-submeny-container
+        display: flex
+        animation: show .5s ease
     svg
+        color: $meny-item-color
         margin-left: 5px
     .meny-item-title
         display: block
@@ -76,8 +99,11 @@ export default {
         width: 100%
         height: 100%
         padding: 5px
+        color: $meny-item-color
     .meny-item-submeny-container
         display: none
+        flex-direction: column
+        gap: 5px
 
         position: absolute
         top: -5px
@@ -88,7 +114,9 @@ export default {
 
         background: white
         border-radius: 3px
-        box-shadow: -12px 0px 12px 4px #eee
+        box-shadow: $meny-submeny-container-box-shadow
 
         padding: 5px
+
+        animation: close .5s ease
 </style>

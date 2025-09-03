@@ -12,7 +12,7 @@ class BankContractPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('bank_contract-viewAny');
+        return $user->hasPermission('bank_contract:viewAny');
     }
 
     /**
@@ -20,7 +20,7 @@ class BankContractPolicy
      */
     public function view(User $user, BankContract $bankContract): bool
     {
-        return $user->hasPermission('bank_contract-view');
+        return $user->hasPermission('bank_contract:view');
     }
 
     /**
@@ -28,7 +28,7 @@ class BankContractPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermission('bank_contract-create');
+        return $user->hasPermission('bank_contract:create');
     }
 
     /**
@@ -36,7 +36,7 @@ class BankContractPolicy
      */
     public function update(User $user, BankContract $bankContract): bool
     {
-        return $user->hasPermission('bank_contract-update');
+        return $user->hasPermission('bank_contract:update');
     }
 
     /**
@@ -44,6 +44,6 @@ class BankContractPolicy
      */
     public function delete(User $user, BankContract $bankContract): bool
     {
-        return $user->hasPermission('bank_contract-delete');
+        return $user->hasPermission('bank_contract:delete');
     }
 }

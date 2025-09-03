@@ -6,9 +6,7 @@ import { createInertiaApp } from "@inertiajs/vue3";
 
 createInertiaApp({
     progress: {
-        delay: 250,
-        color: "#29d",
-        includeCSS: false,
+        color: "#dd2222",
         showSpinner: false,
     },
     resolve: (name) => {

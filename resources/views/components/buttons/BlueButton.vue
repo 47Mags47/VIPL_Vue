@@ -1,16 +1,27 @@
 <script>
 import BaseButton from './BaseButton.vue'
 
-
 export default {
+    props: {
+        text: {
+            type: String
+        },
+        onClick:{
+            type: Function
+        }
+    },
     components: {
         BaseButton
-    }
+    },
+    slots: ['default']
 }
 </script>
 
 <template>
-    <BaseButton color="blue" />
+    <BaseButton color="blue" @click="onClick">
+        <template v-if="$slots.default"><slot name="default" /></template>
+        <template v-else>{{ text }}</template>
+    </BaseButton>
 </template>
 
 <style lang="sass" scoped>

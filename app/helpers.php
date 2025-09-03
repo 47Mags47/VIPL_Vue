@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -28,14 +29,14 @@ if (!function_exists('getResource')) {
      * @param string|Model|Builder $model модель, запрос или класс для преобразования
      * @return ResourceCollection|JsonResource готовый ресурс
      */
-    function getResource(string|Model|Builder $model): ResourceCollection|JsonResource
+    function getResource(string|Model|Builder|Relation $model): ResourceCollection|JsonResource
     {
         if ($model instanceof Model)
             return $model->toresource();
 
-        if ($model instanceof Builder)
+        if ($model instanceof Builder or $model instanceof Relation)
             return $model->paginate(50)->toResourceCollection();
 
-        return $model::paginate(50)->toResourceCollection();
+        return $model::filter()->paginate(50)->toResourceCollection();
     }
 }

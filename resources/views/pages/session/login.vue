@@ -1,15 +1,11 @@
 <script>
-import { GuestWebLayout as Layout } from "@layouts";
-import { VerticalForm as Form, StringInput, PasswordInput, CheckBox } from '@components'
-
+import { GuestWebLayout } from "@layouts";
+import { ResourceForm } from '@components'
 
 export default {
     components: {
-        Layout,
-        Form,
-        StringInput,
-        PasswordInput,
-        CheckBox
+        GuestWebLayout,
+        ResourceForm
     },
     data() {
         return {
@@ -23,14 +19,28 @@ export default {
 </script>
 
 <template>
-    <Layout>
-        <Form header="Вход">
-            <StringInput name="login" label="Логин" :value="login" autocomplete="on"
-                @update:value="(val) => (login = val)" />
-            <PasswordInput name="password" label="Пароль" :value="password" autocomplete="on"
-                @update:value="(val) => (password = val)" />
-            <CheckBox name="remember" label="Запомнить меня"
-                @update:value="(val) => (remember = val)" />
-        </Form>
-    </Layout>
+    <GuestWebLayout>
+        <ResourceForm
+            header="Вход"
+            sbm="Войти"
+            :action="route('session.store')"
+            :inputs="[
+                {
+                    inputType: 'string',
+                    name: 'login',
+                    label: 'Логин',
+                },
+                {
+                    inputType: 'password',
+                    name: 'password',
+                    label: 'Пароль',
+                },
+                {
+                    inputType: 'checkbox',
+                    name: 'remember',
+                    label: 'Запомнить меня',
+                },
+            ]"
+        />
+    </GuestWebLayout>
 </template>

@@ -1,26 +1,27 @@
 <?php
 
-use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\HasPermissionMiddleware;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__ . '/../routes/web.php',
     )
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->job(new App\Jobs\Shedules\ClearInvitesJob, 'shedules')->daily();
+    })
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectGuestsTo(fn (Request $request) => route('session.create'));
+        $middleware->redirectGuestsTo(fn() => route('session.create'));
 
         $middleware->web(append: [
-            HandleInertiaRequests::class,
+            App\Http\Middleware\HandleInertiaRequests::class,
+            App\Http\Middleware\AuthorizationActionMiddleware::class,
         ]);
         $middleware->alias([
-            'has-permission' => HasPermissionMiddleware::class
+            'has-permission' => App\Http\Middleware\HasPermissionMiddleware::class
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function (): void {
         //
     })->create();

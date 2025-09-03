@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Writer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class BankContractFactory extends Factory
         return [
             'number' => $this->faker->word(),
             'signed_at' => now()->subDays(rand(0, 365)),
+            'writer_id' => Writer::all()->random()->id,
         ];
     }
 }
