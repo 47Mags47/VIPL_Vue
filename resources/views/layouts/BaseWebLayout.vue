@@ -1,5 +1,5 @@
 <script>
-import { FlashMessages } from '@components';
+import { FlashMessages } from '../includes';
 
 export default {
     props: ['name'],

@@ -63,7 +63,11 @@ class UserRoleUserPermissionSeeder extends Seeder
         UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment:update')->id]);
         UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment:delete')->id]);
 
-
+        UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment_event:viewAny')->id]);
+        UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment_event:view')->id]);
+        UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment_event:create')->id]);
+        UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment_event:update')->id]);
+        UserRoleUserPermission::create(['role_id' => UserRole::byCode('admin')->id, 'permission_id' => UserPermission::byCode('payment_event:delete')->id]);
 
 
     }

@@ -35,8 +35,8 @@ if (!function_exists('getResource')) {
             return $model->toresource();
 
         if ($model instanceof Builder or $model instanceof Relation)
-            return $model->paginate(50)->toResourceCollection();
+            return $model->paginate(5)->toResourceCollection();
 
-        return $model::filter()->paginate(50)->toResourceCollection();
+        return $model::filter()->paginate(5)->toResourceCollection();
     }
 }

@@ -1,1 +1,1 @@
-import './fortawesome'
+// import './fortawesome'

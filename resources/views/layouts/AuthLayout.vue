@@ -1,11 +1,16 @@
 <script>
+import { usePage } from '@inertiajs/vue3';
 import BaseWebLayout from './BaseWebLayout.vue';
-import Header from '../includes/Header.vue';
+import { MainMeny } from '../includes/MainMeny';
 
 export default {
     components: {
         BaseWebLayout,
-        Header,
+        MainMeny,
+    },
+    computed: {
+        current_user() { return usePage().props.current_user.data },
+        permissions() { return this.current_user.permissions },
     },
 }
 
@@ -13,13 +18,19 @@ export default {
 
 <template>
     <BaseWebLayout name="auth-layout">
-        <Header />
-        <slot />
+        <MainMeny />
+        <div class="content">
+            <slot />
+        </div>
     </BaseWebLayout>
 </template>
 
 <style lang="sass">
 .auth-layout
     display: grid
-    grid-template-rows: $header-height calc(100vh - $header-height)
+    grid-auto-flow: column
+    grid-template-columns: $meny-width
+    .content
+        overflow: auto
+        @include scroll()
 </style>

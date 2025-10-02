@@ -1,1 +1,1 @@
-export {default as Ico} from './BaseIco.vue'
+export { default as Ico } from "./Ico.vue";

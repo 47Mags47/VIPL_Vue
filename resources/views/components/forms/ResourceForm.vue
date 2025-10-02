@@ -1,70 +1,67 @@
 <script>
-import { default as VerticalForm } from './VerticalForm.vue';
-
-import { default as StringInput } from '../inputs/StringInput.vue';
-import { default as DateInput } from '../inputs/DateInput.vue';
-import { default as EmailInput } from '../inputs/EmailInput.vue';
-import { default as HiddenInput } from '../inputs/HiddenInput.vue';
-import { default as PasswordInput } from '../inputs/PasswordInput.vue';
-import { default as CheckBoxInput } from '../inputs/CheckBox.vue';
-import { default as TextInput } from '../inputs/TextInput.vue';
-import { default as Select } from '../inputs/Select.vue';
-
+import { defineAsyncComponent } from 'vue';
+import VerticalForm from './VerticalForm.vue';
 
 export default {
+    components: {
+        VerticalForm,
+        StringInput: defineAsyncComponent(() => import('../inputs/StringInput.vue')),
+        DateInput: defineAsyncComponent(() => import('../inputs/DateInput.vue')),
+        EmailInput: defineAsyncComponent(() => import('../inputs/EmailInput.vue')),
+        HiddenInput: defineAsyncComponent(() => import('../inputs/HiddenInput.vue')),
+        PasswordInput: defineAsyncComponent(() => import('../inputs/PasswordInput.vue')),
+        CheckBox: defineAsyncComponent(() => import('../inputs/CheckBox.vue')),
+        TextInput: defineAsyncComponent(() => import('../inputs/TextInput.vue')),
+        Select: defineAsyncComponent(() => import('../inputs/Select.vue')),
+    },
     props: {
         inputs: {
             type: Array,
-            default: () => ({}),
+            default: [],
             validator: (value) => value.every(input => {
-                if (!('name' in input) && input.inputType !== 'hidden')
-                    return false
+                if (typeof input !== 'object') {
+                    console.error('Переданое значение не является объектом')
+                    return
+                }
 
-                if (!('inputType' in input))
-                    return false
+                let validTypes = ['string', 'date', 'email', 'password', 'hidden', 'checkbox', 'text', 'select']
+                if (!validTypes.includes(input.type)) {
+                    console.error(`Невозможный type: ${input.type}`)
+                    return
+                }
 
-                if (![
-                    'string',
-                    'date',
-                    'email',
-                    'password',
-                    'hidden',
-                    'checkbox',
-                    'text',
-                    'select'
-                ].includes(input.inputType))
-                    return false
                 return true
             })
         }
     },
-    components: {
-        VerticalForm,
-        StringInput,
-        DateInput,
-        EmailInput,
-        HiddenInput,
-        PasswordInput,
-        CheckBoxInput,
-        TextInput,
-        Select
+    computed: {
+        bind() {
+            return {
+                inputs: this.inputs,
+            }
+        },
+    },
+    methods:{
+        getInputBind(input){
+            delete input.type
+
+            return input
+        }
     },
 }
 </script>
 
 <template>
     <VerticalForm>
-        <template v-for="input in inputs">
-            <StringInput    v-if="input.inputType === 'string'"     v-bind="input" />
-            <DateInput      v-if="input.inputType === 'date'"       v-bind="input" />
-            <EmailInput     v-if="input.inputType === 'email'"      v-bind="input" />
-            <HiddenInput    v-if="input.inputType === 'hidden'"     v-bind="input" />
-            <PasswordInput  v-if="input.inputType === 'password'"   v-bind="input" />
-            <CheckBoxInput  v-if="input.inputType === 'checkbox'"   v-bind="input" />
-
-            <TextInput      v-if="input.inputType === 'text'"       v-bind="input" />
-
-            <Select         v-if="input.inputType === 'select'"     v-bind="input" />
+        <template v-for="input in bind.inputs">
+            <StringInput    v-if="input.type === 'string'"      v-bind="getInputBind(input)" />
+            <DateInput      v-if="input.type === 'date'"        v-bind="getInputBind(input)" />
+            <EmailInput     v-if="input.type === 'email'"       v-bind="getInputBind(input)" />
+            <HiddenInput    v-if="input.type === 'hidden'"      v-bind="getInputBind(input)" />
+            <PasswordInput  v-if="input.type === 'password'"    v-bind="getInputBind(input)" />
+            <CheckBox       v-if="input.type === 'checkbox'"    v-bind="getInputBind(input)" />
+            <TextInput      v-if="input.type === 'text'"        v-bind="getInputBind(input)" />
+            <Select         v-if="input.type === 'select'"      v-bind="getInputBind(input)" />
         </template>
     </VerticalForm>
 </template>

@@ -60,5 +60,11 @@ class UserPermissionSeeder extends Seeder
         UserPermission::create(['code' => 'payment:create',             'name' => 'Создание записи (выплаты)']);
         UserPermission::create(['code' => 'payment:update',             'name' => 'Обновление записи (выплаты)']);
         UserPermission::create(['code' => 'payment:delete',             'name' => 'Удаление записи (выплаты)']);
+
+        UserPermission::create(['code' => 'payment_event:viewAny',      'name' => 'Просмотр всех записей (события выплат)']);
+        UserPermission::create(['code' => 'payment_event:view',         'name' => 'Просмотр записи (события выплат)']);
+        UserPermission::create(['code' => 'payment_event:create',       'name' => 'Создание записи (события выплат)']);
+        UserPermission::create(['code' => 'payment_event:update',       'name' => 'Обновление записи (события выплат)']);
+        UserPermission::create(['code' => 'payment_event:delete',       'name' => 'Удаление записи (события выплат)']);
     }
 }

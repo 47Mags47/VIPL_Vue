@@ -1,6 +1,6 @@
 <script>
 import { Link } from '@inertiajs/vue3'
-import { default as Ico } from '../icons/BaseIco.vue'
+import { default as Ico } from '../icons/Ico.vue'
 
 export default {
     components: {

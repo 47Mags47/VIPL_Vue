@@ -1,30 +1,29 @@
 <script>
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
 }
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Новая запись (Закон)"
             sbm="Добавить"
             :action="route('laws.store')"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                     value: ''
                 },
                 {
-                    inputType: 'text',
+                    type: 'text',
                     name: 'name',
                     label: 'Наименование',
                     value: ''
@@ -32,5 +31,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

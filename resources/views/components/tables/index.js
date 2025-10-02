@@ -1,4 +1,4 @@
-export { default as BaseTable } from "./BaseTable.vue";
+export { default as Table } from "./BaseTable.vue";
 export { default as ResourceTable } from "./ResourceTable.vue";
 export { default as TableRow } from "./components/TableRow.vue";
 export { default as TableTh } from "./components/TableTh.vue";

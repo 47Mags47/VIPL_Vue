@@ -1,11 +1,11 @@
 <script>
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
 import { usePage } from '@inertiajs/vue3';
+import { Page, ResourceForm } from '@components'
+
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     computed: {
@@ -16,19 +16,19 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Отправить приглашение"
             sbm="Отправить"
             :action="route('invites.store', {division: division.id})"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'email',
                     label: 'E-mail',
                 },
                 {
-                    inputType: 'select',
+                    type: 'select',
                     name: 'role_id',
                     label: 'роль',
                     options: roles
@@ -36,5 +36,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

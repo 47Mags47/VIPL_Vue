@@ -1,11 +1,10 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { GuestWebLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
 
 export default {
     components: {
-        GuestWebLayout,
+        Page,
         ResourceForm,
     },
     computed: {
@@ -15,63 +14,63 @@ export default {
 </script>
 
 <template>
-    <GuestWebLayout>
+    <Page>
         <ResourceForm
             header="Регистрация"
             sbm="Отправить"
             :action="route('users.store')"
             :inputs="[
                 {
-                    inputType: 'hidden',
+                    type: 'hidden',
                     name: 'token',
                     value: invite.token
                 },
                 {
-                    inputType: 'email',
+                    type: 'email',
                     label: 'E-mail',
                     name: 'email',
                     disabled: true,
                     value: invite.email
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     label: 'Роль',
                     name: 'role',
                     disabled: true,
                     value: invite.role.name
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'last_name',
                     label: 'Фамилия',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'first_name',
                     label: 'Имя',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'middle_name',
                     label: 'Отчество',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'login',
                     label: 'Логин',
                 },
                 {
-                    inputType: 'password',
+                    type: 'password',
                     name: 'password',
                     label: 'Пароль',
                 },
                 {
-                    inputType: 'password',
+                    type: 'password',
                     name: 'password_confirmation',
                     label: 'Повторите пароль',
                 },
             ]"
         >
         </ResourceForm>
-    </GuestWebLayout>
+    </Page>
 </template>

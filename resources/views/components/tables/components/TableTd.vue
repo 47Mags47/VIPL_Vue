@@ -1,35 +1,67 @@
 <script>
 export default {
+    inheritAttrs: false,
     props: {
-        button: {
-            type: Boolean,
-            default: false
+        type: {
+            type: String,
+            default: 'string',
+            validator(value) {
+                return ['string', 'date'].includes(value)
+            }
         },
-        center: {
-            type: Boolean,
-            default: false
+        vertical: {
+            type: String,
+            default: 'top'
         },
-        empty: {
-            type: Boolean,
-            default: false
+        horizontal: {
+            type: String,
+            default: 'left'
         },
-        columnSpan: {
-            type: Number,
-            default: 1,
+        colspan: {
+            type: [Number, Function],
+            default: null,
+        },
+        rowspan: {
+            type: [Number, Function],
+            default: null,
+        },
+        value: {
+            type: String,
+            default: ''
         }
     },
+    computed: {
+        styles() {
+            let styles = {}
+
+            let positions = {
+                vertical: {
+                    'top': 'flex-start',
+                    'center': 'center',
+                    'bottom': 'flex-end'
+                },
+                horizontal: {
+                    'left': 'flex-start',
+                    'center': 'center',
+                    'right': 'flex-end'
+                }
+            }
+
+            styles['align-items'] = positions.vertical[this.vertical]
+            styles['justify-content'] = positions.horizontal[this.horizontal]
+
+            return styles
+        }
+    }
 }
 </script>
 
 <template>
-    <td :colspan="columnSpan">
-        <div :class="{
-            'table-cell-container': true,
-            'has-button': button,
-            'empty': empty,
-            'center': (center || button || empty),
-         }">
-            <slot />
+    {{ console.log($attrs, $props) }}
+    <td :colspan :rowspan>
+        <div class='table-cell-container' :style="styles">
+            <template v-if="'default' in $slots"><slot /></template>
+            <template v-else>{{ value }}</template>
         </div>
     </td>
 </template>
@@ -41,6 +73,7 @@ table
             border-bottom: none
         td
             border: $table-border
+            font-size: .9rem
             &:first-child
                 border-left: none
             &:last-child
@@ -48,25 +81,26 @@ table
             .table-cell-container
                 width: 100%
                 height: 100%
-                padding: 10px
+                padding: 5px 10px
                 display: flex
-                align-items: center
-                &.has-button:deep(.button)
-                    width: 35px
-                    height: 35px
-                    padding: 0
-                    font-size: .9rem
-                &.center
-                    padding: 5px
-                    display: flex
-                    justify-content: center
-                    align-items: center
-                &.empty
-                    padding: 50px 5px
-                    font-size: 2rem
-                    color: #999
-                    display: flex
-                    flex-direction: column
-                    gap: 10px
+                // justify-content:
+                // align-items: center
+                // &.has-button:deep(.button)
+                //     width: 35px
+                //     height: 35px
+                //     padding: 0
+                //     font-size: .9rem
+                // &.center
+                //     padding: 5px
+                //     display: flex
+                //     justify-content: center
+                //     align-items: center
+                // &.empty
+                //     padding: 50px 5px
+                //     font-size: 2rem
+                //     color: #999
+                //     display: flex
+                //     flex-direction: column
+                //     gap: 10px
 
 </style>

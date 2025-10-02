@@ -23,7 +23,8 @@ export default {
             default: null
         },
         label: {
-            type: String
+            type: String,
+            default: null
         },
         placeholder: {
             type: String,
@@ -64,7 +65,7 @@ export default {
 </script>
 
 <template>
-    <FormItem :name :label :type="item.position" v-if="isFormItem">
+    <FormItem :name :label :type="item.position" v-if="label !== null">
         <input
             :type
             :id="id ?? name"

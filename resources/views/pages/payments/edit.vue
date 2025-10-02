@@ -1,11 +1,10 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     computed: {
@@ -16,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Редактировать запись (Закон)"
             sbm="Сохранить"
@@ -24,25 +23,25 @@ export default {
             :action="route('payments.update', { payment: payment.id })"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                     value: payment.code
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'name',
                     label: 'Наименование',
                     value: payment.name
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'kbk',
                     label: 'КБК',
                     value: payment.kbk
                 },
                 {
-                    inputType: 'select',
+                    type: 'select',
                     name: 'law_id',
                     label: 'Закон',
                     options: laws,
@@ -52,5 +51,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

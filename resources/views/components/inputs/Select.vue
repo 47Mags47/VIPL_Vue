@@ -1,5 +1,5 @@
 <script>
-import { default as Ico } from '../icons/BaseIco.vue';
+import { default as Ico } from '../icons/Ico.vue';
 import { default as FormItem } from '../forms/FormItem.vue'
 
 

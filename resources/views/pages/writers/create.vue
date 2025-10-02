@@ -1,11 +1,11 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
+
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     computed: {
@@ -15,35 +15,35 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Новая запись (Писатель)"
             sbm="Добавить"
             :action="route('writers.store')"
             :inputs="[
                 {
-                    inputType: 'select',
+                    type: 'select',
                     name: 'type_id',
                     label: 'Тип',
                     options: types,
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'name',
                     label: 'Наименование',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'class',
                     label: 'Класс',
                 },
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

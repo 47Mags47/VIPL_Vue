@@ -1,5 +1,5 @@
 <script>
-import { Ico } from '../icons';
+import { Ico } from '@components';
 import { usePage } from '@inertiajs/vue3';
 
 
@@ -38,9 +38,9 @@ export default {
     <div class="flash-messages-container" v-if="isOpen">
         <div class="flash-message-container" v-for="(messages, type) in flash" :key="type">
             <div :class="['flash-message', type]" v-for="(message, index) in messages" :key="`${index}-${Date.now()}`">
-                <Ico v-if="type === 'success'" type="flash-success" />
-                <Ico v-if="type === 'error'" type="flash-error" />
-                <Ico v-if="type === 'warning'" type="flash-warning" />
+                <Ico v-if="type === 'success'"  type="circle-check" />
+                <Ico v-if="type === 'error'"    type="circle-xmark" />
+                <Ico v-if="type === 'warning'"  type="circle-exclamation" />
                 <span>{{ message }}</span>
             </div>
         </div>
@@ -51,7 +51,7 @@ export default {
 <style lang="sass" scoped>
 .flash-messages-container
     position: absolute
-    top: calc($header-height + 15px)
+    top: 50px
     right: 10px
 
     display: flex

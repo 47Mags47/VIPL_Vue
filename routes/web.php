@@ -6,6 +6,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\LawController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentEventController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WriterController;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     dd('home');
 })->name('home');
+
+Route::get('/test', function () {
+    return Inertia\Inertia::render('pages/test');
+});
 
 Route::controller(SessionController::class)->name('session.')->group(function () {
     Route::get('/login', 'create')->middleware('guest')->name('create');
@@ -32,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/laws',                            LawController::class)->except(['show']);
     Route::resource('/payments',                        PaymentController::class)->except(['show']);
+    Route::resource('/payment-events',                  PaymentEventController::class)->except(['show']);
 });
 
 Route::middleware('guest')->group(function () {

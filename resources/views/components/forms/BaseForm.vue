@@ -1,22 +1,17 @@
 <script>
-import { Form, router, usePage } from '@inertiajs/vue3'
-import { BlueButton } from '../buttons'
+import { Form } from '@inertiajs/vue3'
 
 export default {
     components: {
         Form,
-        BlueButton
     },
+    slots: [
+        'default'
+    ],
     props: {
-        className: {
-            type: String,
-        },
-        header: {
-            type: [String, null],
-        },
-        sbm: {
-            type: String,
-            default: 'Отправить'
+        class: {
+            type: [String, Object, Array],
+            default: null
         },
         action: {
             type: String,
@@ -29,49 +24,68 @@ export default {
                 return ['get', 'post', 'put', 'delete'].includes(value)
             }
         },
-        onSubmit: {
-            type: Function,
-            default(e) {
-                router.post(this.action, new FormData(e.target))
-            }
-        },
     },
-    slots: [
-        'buttons',
-        'footer',
-        'default'
-    ],
+    methods:{
+        getContainerClasses(){
+            let classes = { 'form-container': true }
+
+            if(this.class !== null){
+                if(Array.isArray(this.class))
+                    this.class.map((name) => classes[name + '-container'] = true)
+                else if(typeof this.class == 'object')
+                    Object.keys(this.class).map((key) => classes[key + '-container'] = true)
+                else if(typeof this.class == 'string')
+                    classes[this.class + '-container'] = true
+            }
+
+            return classes
+        },
+        getFormClasses(){
+            let classes = { 'form': true }
+
+            if(this.class !== null){
+                if(Array.isArray(this.class))
+                    this.class.map((name) => classes[name] = true)
+                else if(typeof this.class == 'object')
+                    Object.keys(this.class).map((key) => classes[key] = true)
+                else if(typeof this.class == 'string')
+                    classes[this.class] = true
+            }
+
+            return classes
+        }
+    },
     computed: {
-        errors: () => usePage().props.errors,
-        typeClass() {
-            return this.className !== undefined ? this.className : ''
-        },
-        containerTypeClass() {
-            return this.className !== undefined ? `${this.className}-container` : ''
-        },
+        bind(){
+            return {
+                container: {
+                    classes: this.getContainerClasses()
+                },
+                form:{
+                    action: this.action,
+                    method: this.method,
+                    classes: this.getFormClasses()
+                },
+            }
+        }
     },
 }
 </script>
 
 <template>
-    <div :class="['form-container', containerTypeClass]">
-        <Form :action :method :class="['form', typeClass]">
-            <div class="form-header" v-if="header !== undefined">
-                <h3>{{ header }}</h3>
-            </div>
-            <div class="form-errors">
-                <div class="form-error" v-if="'form' in errors">{{ errors.form }}</div>
-            </div>
-            <div class="form-content" v-if="$slots.default">
-                <slot name="default" />
-            </div>
-            <div class="form-buttons">
-                <slot name="buttons" />
-                <BlueButton :text="sbm" />
-            </div>
-            <div class="form-footer" v-if="$slots.footer">
-                <slot name="footer" />
-            </div>
+    <div :class="bind.container.classes">
+        <Form
+            :action="bind.form.action"
+            :method="bind.form.method"
+            :class="bind.form.classes"
+        >
+            <slot name="default" />
         </Form>
     </div>
 </template>
+
+<style lang="sass">
+.form-container
+    width: 100%
+    height: 100%
+</style>

@@ -1,11 +1,11 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
+
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     computed: {
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Редактировать запись (Писатель)"
             sbm="Сохранить"
@@ -24,26 +24,26 @@ export default {
             :action="route('writers.update', { writer: writer.id })"
             :inputs="[
                 {
-                    inputType: 'select',
+                    type: 'select',
                     name: 'type_id',
                     label: 'Тип',
                     options: types,
                     value: writer.type
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                     value: writer.code,
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'name',
                     label: 'Наименование',
                     value: writer.name,
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'class',
                     label: 'Класс',
                     value: writer.class,
@@ -51,5 +51,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

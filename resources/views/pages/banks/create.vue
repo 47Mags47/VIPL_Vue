@@ -1,11 +1,11 @@
 <script>
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
 import { usePage } from '@inertiajs/vue3';
+import { Page, ResourceForm } from '@components'
+
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     data() {
@@ -17,24 +17,24 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Новая запись (Банк)"
             sbm="Добавить"
             :action="route('banks.store')"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                 },
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'name',
                     label: 'Нименование',
                 },
                 {
-                    inputType: 'select',
+                    type: 'select',
                     name: 'contract_id',
                     label: 'Договор',
                     options: contracts,
@@ -43,5 +43,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

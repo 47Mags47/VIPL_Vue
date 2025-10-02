@@ -1,12 +1,11 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
-import { AuthLayout } from '@layouts';
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
 
 
 export default {
     components: {
-        AuthLayout,
+        Page,
         ResourceForm,
     },
     data() {
@@ -18,7 +17,7 @@ export default {
 </script>
 
 <template>
-    <AuthLayout>
+    <Page>
         <ResourceForm
             header="Редактировать запись (источник финансирования)"
             sbm="Сохранить"
@@ -26,13 +25,13 @@ export default {
             :action="route('laws.update', { law: law.id })"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'code',
                     label: 'Код',
                     value: law.code
                 },
                 {
-                    inputType: 'text',
+                    type: 'text',
                     name: 'name',
                     label: 'Наименование',
                     value: law.name
@@ -40,5 +39,5 @@ export default {
             ]"
         >
         </ResourceForm>
-    </AuthLayout>
+    </Page>
 </template>

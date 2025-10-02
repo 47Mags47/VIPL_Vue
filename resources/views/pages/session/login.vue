@@ -1,46 +1,38 @@
 <script>
-import { GuestWebLayout } from "@layouts";
-import { ResourceForm } from '@components'
+import { Page, ResourceForm } from '@components'
 
 export default {
     components: {
-        GuestWebLayout,
+        Page,
         ResourceForm
-    },
-    data() {
-        return {
-            login: null,
-            password: null,
-            remember: false,
-        }
     },
 }
 
 </script>
 
 <template>
-    <GuestWebLayout>
+    <Page>
         <ResourceForm
             header="Вход"
             sbm="Войти"
             :action="route('session.store')"
             :inputs="[
                 {
-                    inputType: 'string',
+                    type: 'string',
                     name: 'login',
                     label: 'Логин',
                 },
                 {
-                    inputType: 'password',
+                    type: 'password',
                     name: 'password',
                     label: 'Пароль',
                 },
                 {
-                    inputType: 'checkbox',
+                    type: 'checkbox',
                     name: 'remember',
                     label: 'Запомнить меня',
                 },
             ]"
         />
-    </GuestWebLayout>
+    </Page>
 </template>

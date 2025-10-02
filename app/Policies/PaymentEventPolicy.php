@@ -13,7 +13,7 @@ class PaymentEventPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->hasPermission('payment_event:viewAny');
     }
 
     /**
@@ -21,7 +21,7 @@ class PaymentEventPolicy
      */
     public function view(User $user, PaymentEvent $paymentEvent): bool
     {
-        return false;
+        return $user->hasPermission('payment_event:view');
     }
 
     /**
@@ -29,7 +29,7 @@ class PaymentEventPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasPermission('payment_event:create');
     }
 
     /**
@@ -37,7 +37,7 @@ class PaymentEventPolicy
      */
     public function update(User $user, PaymentEvent $paymentEvent): bool
     {
-        return false;
+        return $user->hasPermission('payment_event:update');
     }
 
     /**
@@ -45,22 +45,6 @@ class PaymentEventPolicy
      */
     public function delete(User $user, PaymentEvent $paymentEvent): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, PaymentEvent $paymentEvent): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, PaymentEvent $paymentEvent): bool
-    {
-        return false;
+        return $user->hasPermission('payment_event:delete');
     }
 }
