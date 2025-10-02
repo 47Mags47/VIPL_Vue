@@ -8,15 +8,114 @@
 
 ### RELEASE (Что должно быть реализовано на релизе)
 
--   [x] release 1.0:
-    -   [x] БД:
-        -   [x] Bank (banks)
-        -   [x] BankContract (Контракты с банками):
-        -   [x] Division (Подразделения)
-        -   [x] Law (Законы)
-        -   [x] Payment (Выплаты):
-        -   [x] PaymentEvent (Выплаты как события, график выплат):
-        -   [x] Writer (Писатель в файл):
+-   [ ] release 1.1:
+    -   [ ] БД:
+        -   [ ] User (users) пользователи:
+            -   Поля:
+                -   id (int 11)
+                -   full_name (string 255)
+                -   login (string 255)
+                -   email (nullable string 255)
+                -   password (string 255)
+                -   password_expired (bool)
+                -   remember_token (nullable string 100)
+                -   email_verified_at (nullable datetime)
+            -   Связи:
+                -   [ ] has many roles
+                -   [ ] has many permissions + riles throught permissions
+                -   [ ] has many divisions
+        -   [ ] UserRole (user_roles) роли пользователей:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+            -   Связи:
+                -   [ ] has many permissions
+        -   [ ] UserPermission (user_permissions) резрешения пользователей:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+        -   [ ] UserToUserRole (user_to_user_role) связь пользователи - роли:
+            -   Поля:
+                -   id (int 11)
+                -   user_id (int 11 pivot users)
+                -   role_id (int 11 pivot user_roles)
+            -   Связи:
+                -   [ ] has one user
+                -   [ ] has one role
+        -   [ ] UserToUserPermission (user_to_user_permission) связь пользователи - разрешения:
+            -   Поля:
+                -   id (int 11)
+                -   user_id (int 11 pivot users)
+                -   permission_id (int 11 pivot user_permissions)
+            -   [ ] Связи:
+                -   [ ] has one user
+                -   [ ] has one permission
+        -   [ ] UserRoleToUserPermission (user_role_to_user_permission) связь роль - разрешения:
+            -   Поля:
+                -   id (int 11)
+                -   role_id (int 11 pivot user_roles)
+                -   permission_id (int 11 pivot user_permissions)
+            -   [ ] Связи:
+                -   [ ] has one role
+                -   [ ] has one permission
+        -   [ ] Bank (banks) банки:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   contract_id (int 11 pivot bank_contracts)
+            -   [ ] Связи:
+                -   [ ] has one contract
+                -   [ ] has one writer (throught contract)
+        -   [ ] BankContract (bank_contracts) контракты с банками:
+            -   Поля:
+                -   id (int 11)
+                -   number (string 255)
+                -   signed_at (datetime)
+                -   writer_id (int 11 pivot writers)
+            -   [ ] Связи:
+                -   [ ] has one writer
+        -   [ ] Division (divisions) Подразделение:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+        -   [ ] Law (laws) Закон:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+        -   [ ] Payment (payments) Выплата:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+                -   kbk (string 20)
+                -   law_id (int 11 pivot laws)
+        -   [ ] PaymentEvent (payment_events) Выплаты как события, график выплат:
+            -   Поля:
+                -   id (int 11)
+                -   date (date)
+                -   payment_id (int 11 pivot payment)
+                -   status_id (int 11 pivot payment_event_statuses)
+        -   [ ] PaymentEventStatus (payment_event_statuses) статусы события выплат:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+        -   [ ] Writer (writers) Писатель в файл:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
+                -   class (string 255)
+                -   type_iud (int 11 pivot writer_types)
+        -   [ ] WriterType (writer_types) типы писателей в файл:
+            -   Поля:
+                -   id (int 11)
+                -   code (string 255)
+                -   name (string 255)
     -   [x] Страницы:
         -   [x] Вход (/login)
         -   [x] Справочник подразделений:
