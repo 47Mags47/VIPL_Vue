@@ -15,23 +15,14 @@ class CurrentUserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'                => $this->id,
-            'first_name'        => $this->first_name,
-            'last_name'         => $this->last_name,
-            'middle_name'       => $this->middle_name,
-            'email'             => $this->email,
-
-            'status'            => [
-                'id'    => $this->status->id,
-                'name'  => $this->status->name,
+            'id' => $this->id,
+            'full_name' => $this->full_name,
+            'email' => $this->email,
+            'status' => [
+                'id' => $this->status->id,
+                'name' => $this->status->name,
             ],
-            'role'              => [
-                'id'    => $this->role->id,
-                'name'  => $this->role->name,
-            ],
-            'permissions' => $this->permissions->map(function($permission){
-                return $permission->code;
-            }),
+            'permissions' => $this->getAllPermissions()->pluck('code'),
         ];
     }
 }

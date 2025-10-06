@@ -1,19 +1,14 @@
 <script>
 import { Ico } from '@components';
-import { Accordeon } from '@components';
 import { Link } from '@inertiajs/vue3';
 import { AuthLayout } from '@layouts';
 
 export default {
     components: {
         AuthLayout,
-        Accordeon,
         Ico,
         Link
     },
-    methods: {
-
-    }
 }
 </script>
 

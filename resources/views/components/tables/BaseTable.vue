@@ -99,18 +99,14 @@ export default {
     flex-direction: column
     gap: 5px
 
-    overflow: auto
-    @include scroll
     .before-table-container
         display: flex
         flex-direction: column
         gap: 10px
-        padding: 15px
         .table-header-container
             text-align: center
     .table-container
         flex: 1
-        padding: 0 10px
         .table
             width: 100%
             border-collapse: collapse

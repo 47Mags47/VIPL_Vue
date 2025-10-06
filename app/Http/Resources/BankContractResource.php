@@ -17,7 +17,7 @@ class BankContractResource extends JsonResource
         return [
             'id' => $this->id,
             'number' => $this->number,
-            'signed_at' => $this->signed_at->format('Y-m-d'),
+            'signed_at' => $this->signed_at,
             'writer' => [
                 'id' => $this->writer->id,
                 'name' => $this->writer->name,

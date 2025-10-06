@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\UserPermission;
+use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_role_user_permissions', function (Blueprint $table) {
+        Schema::create('user_to_user_roles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained(User::getTableName());
             $table->foreignId('role_id')->constrained(UserRole::getTableName());
-            $table->foreignId('permission_id')->constrained(UserPermission::getTableName());
+            $table->timestamps();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_role_user_permissions');
+        Schema::dropIfExists('user_to_user_roles');
     }
 };

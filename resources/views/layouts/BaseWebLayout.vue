@@ -1,5 +1,5 @@
 <script>
-import { FlashMessages } from '../includes';
+import FlashMessages from '../includes/FlashMessages.vue';
 
 export default {
     props: ['name'],

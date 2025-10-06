@@ -27,7 +27,7 @@ class BankContractController extends Controller
     public function create()
     {
         return Inertia::render('pages/bank-contracts/create', [
-            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id))
+            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id), 'full')
         ]);
     }
 
@@ -48,7 +48,7 @@ class BankContractController extends Controller
     {
         return Inertia::render('pages/bank-contracts/edit', [
             'bankContract' => fn() => getResource($bankContract),
-            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id))
+            'writers' => fn() => getResource(Writer::where('type_id', WriterType::byCode('bank-file')->id), 'full')
         ]);
     }
 

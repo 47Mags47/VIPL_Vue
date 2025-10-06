@@ -26,7 +26,7 @@ class WriterController extends Controller
     public function create()
     {
         return Inertia::render('pages/writers/create', [
-            'types' => fn() => getResource(WriterType::class),
+            'types' => fn() => getResource(WriterType::class, 'full'),
         ]);
     }
 
@@ -47,7 +47,7 @@ class WriterController extends Controller
     {
         return Inertia::render('pages/writers/edit', [
             'writer' => fn() => getResource($writer),
-            'types' => fn() => getResource(WriterType::class),
+            'types' => fn() => getResource(WriterType::class, 'full'),
         ]);
     }
 

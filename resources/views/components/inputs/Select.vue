@@ -103,7 +103,7 @@ export default {
             <div :class="{ 'input': true, 'disabled': disabled }" @click="onOpenClick" ref="input">
                 <input type="hidden" :name :id="name" :value="selected[valueIndex]" :placeholder="name" readonly />
                 <span class="title">{{ selected[titleIndex] }}</span>
-                <Ico type="array-down" />
+                <Ico type="chevron-down" />
             </div>
             <ul :class="{ 'select-options-container': true, 'open': isOpen }" :style="{
                 top: listPosition.top,
@@ -130,10 +130,10 @@ export default {
         border: $input-border
         display: flex
         gap: 5px
+        cursor: pointer
         .title
             flex: 1
             overflow: hidden
-            cursor: pointer
     .select-options-container
         position: fixed
 

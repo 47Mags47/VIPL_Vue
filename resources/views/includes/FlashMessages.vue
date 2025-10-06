@@ -51,7 +51,7 @@ export default {
 <style lang="sass" scoped>
 .flash-messages-container
     position: absolute
-    top: 50px
+    top: 10px
     right: 10px
 
     display: flex

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePaymentEventRequest;
 use App\Http\Requests\UpdatePaymentEventRequest;
-use App\Http\Resources\PaymentEventGroupDateResource;
+use App\Models\Payment;
 use App\Models\PaymentEvent;
+use App\Models\PaymentEventStatus;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,8 +25,8 @@ class PaymentEventController extends Controller
         $monthEnd = $monthStart->endOfMonth();
 
         return Inertia::render('pages/payment-events/index', [
-            'month' => fn() => "$year-$month",
-            'payment-events' => fn() => getResource(PaymentEvent::whereBetween('date', [$monthStart, $monthEnd])->orderBy('date'))
+            'month' => fn() => $monthStart->format('Y-m-d'),
+            'payment-events' => fn() => getResource(PaymentEvent::whereBetween('date', [$monthStart, $monthEnd])->orderBy('date'), 'full')
         ]);
     }
 
@@ -34,7 +35,9 @@ class PaymentEventController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('pages/payment-events/create', [
+            'payments' => fn()=> getResource(Payment::class, 'full'),
+        ]);
     }
 
     /**
@@ -42,15 +45,13 @@ class PaymentEventController extends Controller
      */
     public function store(StorePaymentEventRequest $request)
     {
-        //
-    }
+        PaymentEvent::create([
+            'date' => $request->input('date'),
+            'payment_id' => $request->input('payment_id'),
+            'status_id' => PaymentEventStatus::bycode('active')->id,
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PaymentEvent $paymentEvent)
-    {
-        //
+        return redirect()->route('payment-events.index')->with('success', 'Запись успешно создана');
     }
 
     /**
@@ -58,7 +59,10 @@ class PaymentEventController extends Controller
      */
     public function edit(PaymentEvent $paymentEvent)
     {
-        //
+        return Inertia::render('pages/payment-events/edit', [
+            'payment-event' => fn() => getResource($paymentEvent),
+            'payments' => fn()=> getResource(Payment::class, 'full'),
+        ]);
     }
 
     /**
@@ -66,7 +70,13 @@ class PaymentEventController extends Controller
      */
     public function update(UpdatePaymentEventRequest $request, PaymentEvent $paymentEvent)
     {
-        //
+        $paymentEvent->update([
+            'date' => $request->input('date'),
+            'payment_id' => $request->input('payment_id'),
+            'status_id' => PaymentEventStatus::bycode('active')->id,
+        ]);
+
+        return redirect()->route('payment-events.index')->with('success', 'Запись успешно обновлена');
     }
 
     /**
@@ -74,6 +84,8 @@ class PaymentEventController extends Controller
      */
     public function destroy(PaymentEvent $paymentEvent)
     {
-        //
+        $paymentEvent->delete();
+
+        return redirect()->route('payment-events.index')->with('success', 'Запись удалена');
     }
 }

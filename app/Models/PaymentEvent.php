@@ -17,17 +17,15 @@ class PaymentEvent extends BaseModel
 
     ### Настройки
     ##################################################
-    //
-
-    ### Методы
-    ##################################################
     protected function casts(): array
     {
         return [
-            'date' => 'datetime',
+            'date' => 'date',
         ];
     }
 
+    ### Методы
+    ##################################################
     public static function fromPeriod(Carbon|CarbonImmutable $dateStart, Carbon|CarbonImmutable $dateEnd): Collection
     {
         $period = collect(

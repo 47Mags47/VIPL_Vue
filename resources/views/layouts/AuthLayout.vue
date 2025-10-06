@@ -1,7 +1,7 @@
 <script>
 import { usePage } from '@inertiajs/vue3';
 import BaseWebLayout from './BaseWebLayout.vue';
-import { MainMeny } from '../includes/MainMeny';
+import MainMeny from '../includes/MainMeny.vue';
 
 export default {
     components: {
@@ -31,6 +31,8 @@ export default {
     grid-auto-flow: column
     grid-template-columns: $meny-width
     .content
+        padding: 10px 5px
         overflow: auto
+        scrollbar-gutter: stable
         @include scroll()
 </style>

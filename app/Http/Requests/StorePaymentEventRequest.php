@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Payment;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePaymentEventRequest extends FormRequest
@@ -14,7 +15,8 @@ class StorePaymentEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'date' => ['required', 'date'],
+            'payment_id' => ['required', 'exists:' . Payment::class . ',id']
         ];
     }
 }

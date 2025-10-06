@@ -26,7 +26,7 @@ class PaymentController extends Controller
     public function create()
     {
         return Inertia::render('pages/payments/create', [
-            'laws' => fn() => getResource(Law::class),
+            'laws' => fn() => getResource(Law::class, 'full'),
         ]);
     }
 
@@ -47,7 +47,7 @@ class PaymentController extends Controller
     {
         return Inertia::render('pages/payments/edit', [
             'payment' => fn() => getResource($payment),
-            'laws' => fn() => getResource(Law::class),
+            'laws' => fn() => getResource(Law::class, 'full'),
         ]);
     }
 

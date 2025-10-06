@@ -6,6 +6,7 @@ use App\Models\Division;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\UserStatus;
+use App\Models\UserToUserRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -18,22 +19,26 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Division::all()->each(function($division){
-            User::factory(3)->create(['division_id' => $division]);
-        });
+        $root = User::factory()->create([
+            'full_name'         => 'root',
+            'login'             => 'root',
+            'email'             => null,
+            'password'          => Hash::make('root'),
+            'status_id'         => UserStatus::byCode('active')->id,
+            'password_expired'  => false,
+            'deleted_at'        => null
+        ]);
 
-        User::factory()->create([
-            'first_name'        => null,
-            'last_name'         => 'Администратор',
-            'middle_name'       => null,
+        $admin = User::factory()->create([
+            'full_name'         => 'Администратор',
             'login'             => 'admin',
             'email'             => 'admin@test.ru',
             'password'          => Hash::make('admin'),
-            'password_expired'  => false,
-            'division_id'       => null,
             'status_id'         => UserStatus::byCode('active')->id,
-            'role_id'           => UserRole::byCode('admin')->id,
+            'password_expired'  => false,
             'deleted_at'        => null
         ]);
+
+        UserToUserRole::create(['user_id' => $admin->id, 'role_id' => UserRole::byCode('program administrator')->id]);
     }
 }

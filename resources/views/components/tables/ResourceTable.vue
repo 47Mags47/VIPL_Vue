@@ -32,7 +32,7 @@ export default {
         },
         href: {
             type: String,
-            default: null
+            default: location.href
         },
 
         hasSearch: {
@@ -81,6 +81,11 @@ export default {
         links: {
             type: Array,
             default: []
+        },
+
+        hasPaginate:{
+            type: Boolean,
+            default: true,
         }
     },
     computed: {
@@ -88,9 +93,10 @@ export default {
             let url = new URL(location.href)
 
             return url.origin + url.pathname
-        }
+        },
     },
     methods: {
+        getObjectValue,
         getData() {
             router.get(this.href, clearObject({ filters: this.filterData }))
         },
@@ -107,7 +113,21 @@ export default {
 
             this.searchAutoFocus = true
         },
-        getObjectValue
+        getCellBinds(row, column) {
+            return {
+                type: column.type ?? 'string',
+                value: getObjectValue(column.dataIndex, row),
+                rowspan: typeof column.rowspan === 'function'
+                    ? column.rowspan(row)
+                    : (column.rowspan ?? 1),
+                colspan: typeof column.colspan === 'function'
+                    ? column.colspan(row)
+                    : (column.colspan ?? 1),
+                visible: typeof column.visible === 'function'
+                    ? column.visible(row)
+                    : (column.visible ?? true),
+            }
+        }
     },
     data() {
         return {
@@ -125,16 +145,19 @@ export default {
     <BaseTable class="resource-table" :header="$attrs.header">
         <template #before>
             <div class="table-option-container">
-                <div class="filter-container">
+                <div class="table-filter-container">
                     <slot name="filters" />
                 </div>
-                <div class="search-container">
+                <div class="table-search-container">
                     <template v-if="hasSearch">
                         <SearchInput name="filters[search]" placeholder="Найти..." :value="filterData.search"
                             :onInput="searchinputHandler" />
                     </template>
                 </div>
-                <div class="actions-container">
+                <div class="table-paginate-container">
+                    <BasePagination v-if="hasPaginate" :current="data.meta.current_page" :last="data.meta.last_page" />
+                </div>
+                <div class="table-actions-container">
                     <slot name="actions" />
 
                     <BlueButton v-if="hasAddButton" class="add-button" :onClick="AddButtonClickHandler">
@@ -161,8 +184,10 @@ export default {
 
         <template #tbody>
             <TableRow v-for="row in data.data">
-                <TableTd v-for="column in columns"
-                    v-bind="{ ...column, value: getObjectValue(column.dataIndex, row) }" />
+                <TableTd v-for="column in columns" v-bind="getCellBinds(row, column)" />
+                <!-- <TableTd v-for="column in columns"
+                    v-bind="{ ...column, value: getObjectValue(column.dataIndex, row) }" /> -->
+
 
                 <TableTd v-if="typeof hasDeleteButton == 'function' ? hasDeleteButton(row) : hasDeleteButton"
                     vertical="center" horizontal="center">
@@ -187,7 +212,7 @@ export default {
         </template>
 
         <template #after>
-            <BasePagination :current="data.meta.current_page" :last="data.meta.last_page" />
+            <BasePagination v-if="hasPaginate" :current="data.meta.current_page" :last="data.meta.last_page" />
         </template>
     </BaseTable>
 </template>
@@ -197,20 +222,28 @@ export default {
     .before-table-container
         .table-option-container
             display: grid
-            grid-template-areas: 'A A' 'B C'
-            grid-template-rows: auto 30px
+            grid-template-areas: 'A A A' 'B C D'
+            grid-template-rows: auto 35px
             grid-template-columns: 350px auto
             gap: 5px
-            .filter-container
+            .table-filter-container
                 grid-area: A
-            .search-container
+            .table-search-container
                 grid-area: B
                 input
                     width: 100%
-            .actions-container
+            .table-paginate-container
                 grid-area: C
 
                 width: auto
+
+                // display: flex
+                // justify-content: center
+                // align-items: center
+
+
+            .table-actions-container
+                grid-area: D
 
                 display: flex
                 justify-content: end

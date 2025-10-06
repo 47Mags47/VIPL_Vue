@@ -23,16 +23,12 @@ class UserFactory extends Factory
         $gender = rand(1,2) === 1 ? 'male' : 'female';
 
         return [
-            'first_name'        => $this->faker->firstName($gender),
-            'last_name'         => $this->faker->lastName($gender),
-            'middle_name'       => $this->faker->firstName('male') . ($gender === 'male' ? 'ов' : 'ова'),
+            'full_name'         => $this->faker->lastName($gender) . ' ' . $this->faker->firstName($gender) . ' ' . $this->faker->firstName('male') . ($gender === 'male' ? 'ов' : 'ова'),
             'login'             => $this->faker->unique()->word(),
             'email'             => $this->faker->email(),
             'password'          => Hash::make($this->faker->word),
-            'password_expired'  => (bool) rand(0, 1),
-            'division_id'       => Division::all()->random()->id,
             'status_id'         => UserStatus::getRandomId(),
-            'role_id'           => UserRole::getRandomId(),
+            'password_expired'  => (bool) rand(0, 1),
             'email_verified_at' => now()->subDay(rand(1, 364)),
             'deleted_at'        => rand(0, 10) === 10 ? now() : null
         ];

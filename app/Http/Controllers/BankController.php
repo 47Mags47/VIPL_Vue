@@ -26,7 +26,7 @@ class BankController extends Controller
     public function create()
     {
         return Inertia::render('pages/banks/create', [
-            'contracts' => fn() => getResource(BankContract::class),
+            'contracts' => fn() => getResource(BankContract::class, 'full'),
         ]);
     }
 
@@ -47,7 +47,7 @@ class BankController extends Controller
     {
         return Inertia::render('pages/banks/edit', [
             'bank' => fn() => getResource($bank),
-            'contracts' => fn() => getResource(BankContract::class),
+            'contracts' => fn() => getResource(BankContract::class, 'full'),
         ]);
     }
 

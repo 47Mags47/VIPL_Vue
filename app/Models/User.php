@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Classes\BaseModel;
+use App\Traits\Roles;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -11,8 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class User extends BaseModel implements
@@ -27,26 +27,24 @@ class User extends BaseModel implements
         Authorizable,
         CanResetPassword,
         MustVerifyEmail,
-        HasFactory;
+        HasFactory,
+        SoftDeletes,
+        Roles;
 
     protected $hidden = [
         'password',
+        'password_expired',
         'remember_token',
+        'email_verified_at'
     ];
 
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'password_expired' => 'boolean',
+            'email_verified_at' => 'datetime',
         ];
-    }
-
-    ### Методы
-    ##################################################
-    public function hasPermission(string $permission): bool
-    {
-        return $this->permissions()->where('permission_id', UserPermission::byCode($permission)?->id)->count() > 0;
     }
 
     ### Связи
@@ -54,20 +52,5 @@ class User extends BaseModel implements
     public function status(): BelongsTo
     {
         return $this->belongsTo(UserStatus::class, 'status_id');
-    }
-
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(UserRole::class, 'role_id');
-    }
-
-    public function permissions(): HasManyThrough
-    {
-        return $this->hasManyThrough(UserPermission::class, UserRoleUserPermission::class, 'role_id', 'id', 'role_id', 'permission_id');
-    }
-
-    public function division(): BelongsTo
-    {
-        return $this->belongsTo(Division::class, 'division_id');
     }
 }

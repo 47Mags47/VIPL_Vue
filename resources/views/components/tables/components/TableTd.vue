@@ -1,7 +1,13 @@
 <script>
+import { DateTime } from 'luxon';
+
 export default {
     inheritAttrs: false,
     props: {
+        visible:{
+            type: Boolean,
+            default: true,
+        },
         type: {
             type: String,
             default: 'string',
@@ -51,17 +57,24 @@ export default {
             styles['justify-content'] = positions.horizontal[this.horizontal]
 
             return styles
+        },
+        normalizeValue() {
+            if (this.type == 'string')
+                return this.value
+            if (this.type == 'date')
+                return DateTime.fromISO(this.value).toFormat('dd.MM.yyyy')
         }
     }
 }
 </script>
 
 <template>
-    {{ console.log($attrs, $props) }}
-    <td :colspan :rowspan>
+    <td v-if="visible" :colspan :rowspan>
         <div class='table-cell-container' :style="styles">
-            <template v-if="'default' in $slots"><slot /></template>
-            <template v-else>{{ value }}</template>
+            <template v-if="'default' in $slots">
+                <slot />
+            </template>
+            <template v-else>{{ normalizeValue }}</template>
         </div>
     </td>
 </template>

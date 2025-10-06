@@ -17,7 +17,7 @@ class SessionController extends Controller
     public function store(StoreSessionRequest $request)
     {
         if (Auth::attempt($request->only('login', 'password'), $request->has('remember')))
-            return redirect()->route('laws.index');
+            return redirect()->route('home');
 
         return redirect()->route('session.create')->with('error', 'Неверный логин или пароль');
     }

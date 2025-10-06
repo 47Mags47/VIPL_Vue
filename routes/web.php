@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BankContractController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\LawController;
@@ -13,7 +14,7 @@ use App\Http\Controllers\WriterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    dd('home');
+    return redirect()->route('dashboard.index');
 })->name('home');
 
 Route::get('/test', function () {
@@ -27,6 +28,9 @@ Route::controller(SessionController::class)->name('session.')->group(function ()
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard',                            [DashboardController::class, 'index'])->name('dashboard.index');
+
+
     Route::resource('/divisions',                       DivisionController::class)->except(['show']);
     Route::resource('/divisions/{division}/users',      UserController::class)->only(['index']);
     Route::resource('/divisions/{division}/invites',    InviteController::class)->only(['create', 'store', 'destroy']);
@@ -40,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/payment-events',                  PaymentEventController::class)->except(['show']);
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/users/create/{token}', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
-});
+// Route::middleware('guest')->group(function () {
+//     Route::get('/users/create/{token}', [UserController::class, 'create'])->name('users.create');
+//     Route::post('/users', [UserController::class, 'store'])->name('users.store');
+// });
