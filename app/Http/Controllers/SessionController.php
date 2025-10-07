@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SelectDivisionRequest;
 use App\Http\Requests\StoreSessionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,5 +30,17 @@ class SessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('session.create');
+    }
+
+    public function selectDivisionGet(){
+        return Inertia::render('pages/session/select-division',[
+            'divisions' => fn() => getResource(user()->divisions(), 'full'),
+        ]);
+    }
+
+    public function selectDivisionPost(SelectDivisionRequest $request){
+        session(['user.division' => $request->division_id]);
+
+        return redirect()->route('home');
     }
 }

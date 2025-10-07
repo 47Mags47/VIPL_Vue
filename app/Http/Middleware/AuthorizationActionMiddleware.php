@@ -38,6 +38,14 @@ class AuthorizationActionMiddleware
         $controllerClass = $matches[0];
 
         preg_match("/[^@]*$/", $controller, $matches);
+
+        if (!array_key_exists($matches[0], $METHODS)) {
+            Log::info("Пропущена проверка неизвестного метода" . '"' . $matches[0] . '"', [
+                'user' => user()->id,
+            ]);
+            return $next($request);
+        }
+
         $method = $METHODS[$matches[0]];
 
         preg_match("/.+?(?=Controller)/", new ReflectionClass($controllerClass)->getShortName(), $matches);
@@ -54,7 +62,6 @@ class AuthorizationActionMiddleware
 
             if (count($parameters) > 0 and array_key_exists($modelName, $parameters) and user()->cannot($method, $parameters[$modelName]))
                 return abort(403);
-
         } elseif (!class_exists($modelClassName))
             Log::info("Попытка проверить авторизацию пользователя провалилась. Не удалось найти класс модели", [
                 'modelClassName' => $modelClassName,

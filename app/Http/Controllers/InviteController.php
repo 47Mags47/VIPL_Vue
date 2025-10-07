@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInviteRequest;
 use App\Models\Division;
 use App\Models\Invite;
-use App\Models\UserRole;
+use App\Models\Role;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -19,7 +19,7 @@ class InviteController extends Controller
     {
         return Inertia::render('pages/invite/create', [
             'division' => fn() => getResource($division),
-            'roles' => fn() => getResource(UserRole::canCreate()),
+            'roles' => fn() => getResource(Role::canCreate()),
         ]);
     }
 

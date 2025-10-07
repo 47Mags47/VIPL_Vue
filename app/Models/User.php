@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Classes\BaseModel;
-use App\Traits\Roles;
+use App\Traits\User\toDivisions;
+use App\Traits\User\toRoles;
+use App\Traits\User\toStatus;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -29,7 +31,9 @@ class User extends BaseModel implements
         MustVerifyEmail,
         HasFactory,
         SoftDeletes,
-        Roles;
+        toRoles,
+        toDivisions,
+        toStatus;
 
     protected $hidden = [
         'password',
@@ -46,6 +50,9 @@ class User extends BaseModel implements
             'email_verified_at' => 'datetime',
         ];
     }
+
+    ### Методы
+    ##################################################
 
     ### Связи
     ##################################################

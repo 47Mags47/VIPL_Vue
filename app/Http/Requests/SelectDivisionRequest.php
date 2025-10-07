@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
-use App\Models\Role;
+use App\Models\Division;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreInviteRequest extends FormRequest
+class SelectDivisionRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,8 +15,7 @@ class StoreInviteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'unique:' . User::class . ',email'],
-            'role_id' => ['required', 'exists:' . Role::class . ',id']
+            'division_id' => ['required', 'exists:' . Division::class . ',id'],
         ];
     }
 }

@@ -25,9 +25,12 @@ Route::controller(SessionController::class)->name('session.')->group(function ()
     Route::get('/login', 'create')->middleware('guest')->name('create');
     Route::post('/login', 'store')->middleware('guest')->name('store');
     Route::delete('/logout', 'destroy')->middleware('auth')->name('destroy');
+
+    Route::get('/select-division', 'selectDivisionGet')->middleware('auth')->name('select-division.get');
+    Route::post('/select-division', 'selectDivisionPost')->middleware('auth')->name('select-division.post');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'select-division'])->group(function () {
     Route::get('/dashboard',                            [DashboardController::class, 'index'])->name('dashboard.index');
 
 

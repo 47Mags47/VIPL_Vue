@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Division;
-use App\Models\UserRole;
 use App\Models\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +21,9 @@ class UserFactory extends Factory
         $gender = rand(1,2) === 1 ? 'male' : 'female';
 
         return [
-            'full_name'         => $this->faker->lastName($gender) . ' ' . $this->faker->firstName($gender) . ' ' . $this->faker->firstName('male') . ($gender === 'male' ? 'ов' : 'ова'),
+            'first_name'        => $this->faker->firstName($gender),
+            'last_name'         => $this->faker->lastName($gender),
+            'middle_name'       => $this->faker->firstName('male') . ($gender === 'male' ? 'ов' : 'ова'),
             'login'             => $this->faker->unique()->word(),
             'email'             => $this->faker->email(),
             'password'          => Hash::make($this->faker->word),

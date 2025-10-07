@@ -19,7 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\AuthorizationActionMiddleware::class,
         ]);
         $middleware->alias([
-            'has-permission' => App\Http\Middleware\HasPermissionMiddleware::class
+            'has-permission' => App\Http\Middleware\HasPermissionMiddleware::class,
+            'select-division' => App\Http\Middleware\SelectDivisionMiddleware::class
         ]);
     })
     ->withExceptions(function (): void {

@@ -11,14 +11,24 @@ export default {
     props: {
         title: {
             type: String,
-            required: true,
+            default: null,
+            validator(value, props){
+                return props.childs !== null
+                    ? true
+                    : value !== null
+            }
         },
         href: {
             type: String,
         },
         ico: {
             type: String,
-            default: null
+            default: null,
+            validator(value, props){
+                return props.isChild
+                    ? true
+                    : value !== null
+            }
         },
         permission: {
             type: String,
@@ -28,12 +38,19 @@ export default {
             type: Array,
             default: null
         },
+        isChild: {
+            type: Boolean,
+            default: false
+        }
 
     },
     computed: {
         visible() {
             if (this.permission !== null)
                 return hasPermission(this.permission)
+
+            if(this.childs !== null)
+                return this.childs.filter((child) => child.permission === null || hasPermission(child.permission)).length > 0
 
             return true
         }
@@ -42,17 +59,21 @@ export default {
 </script>
 
 <template>
-    <div class="meny-item">
+    <div class="meny-item" v-if="visible">
         <template v-if="childs !== null">
-            <Ico :type="ico" />
+
+            <Ico :type="ico" v-if="ico !== null" />
+            <font-awesome-icon v-if="ico === null" icon="fa-solid fa-circle-exclamation" fade />
+
             <div class="childs">
-                <MainMenyItem v-for="item in childs" v-bind="{ ...item }" />
+                <MainMenyItem v-for="item in childs" v-bind="{ ...item, isChild: true }" />
             </div>
         </template>
         <template v-else>
             <template v-if="ico !== null">
                 <Link class="child" :href>
-                <Ico :type="ico" />
+                    <Ico :type="ico" />
+                    <span class="title">{{ title }}</span>
                 </Link>
             </template>
             <template v-else>
@@ -97,6 +118,8 @@ export default {
         border-radius: 0 15px 15px 0
         border-left: 2px solid white
 
+        overflow: hidden
+
         &>.meny-item
             justify-content: flex-start
             align-items: flex-start
@@ -111,4 +134,21 @@ export default {
                 background: $meny-background-hover
     &:hover .childs
         display: block
+
+    .child
+        &>.title
+            display: none
+            position: absolute
+            top: 0
+            left: 100%
+
+            width: 300px
+
+            padding: 7px 15px
+
+            background: $meny-background
+            border-radius: 7px
+            border-left: 2px solid white
+        &:hover>.title
+            display: block
 </style>

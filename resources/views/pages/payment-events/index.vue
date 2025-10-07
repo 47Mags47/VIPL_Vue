@@ -3,6 +3,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import { AuthLayout } from '@layouts';
 import { ResourceTable, BlueButton, Ico } from '@components';
 import { DateTime } from 'luxon';
+import { hasPermission } from '@helpers';
 
 export default {
     components: {
@@ -90,14 +91,23 @@ export default {
             url.searchParams.set('year', nextMonth.year)
 
             router.get(url)
-        }
+        },
+        hasPermission
     }
 }
 </script>
 
 <template>
     <AuthLayout>
-        <ResourceTable header="График выплат" :data="paymentEvents" :columns :hasPaginate="false">
+        <ResourceTable
+            header="График выплат"
+            :data="paymentEvents"
+            :columns
+            :hasPaginate="false"
+            :hasAddButton="hasPermission('payment_event:create')"
+            :hasEditButton="hasPermission('payment_event:update')"
+            :hasDeleteButton="hasPermission('payment_event:delete')"
+        >
             <template #actions>
                 <div class="month-clicker">
                     <BlueButton :onclick="previosMonthClickHandler"><Ico type="chevron-left" /></BlueButton>

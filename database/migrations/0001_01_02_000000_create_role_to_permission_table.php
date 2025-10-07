@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Division;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invites', function (Blueprint $table) {
+        Schema::create('role_to_permissions', function (Blueprint $table) {
             $table->id();
-
-            $table->string('email');
-            $table->string('token');
-
-            $table->foreignId('division_id')->constrained(Division::getTableName());
             $table->foreignId('role_id')->constrained(Role::getTableName());
-
-            $table->timestamps();
+            $table->foreignId('permission_id')->constrained(Permission::getTableName());
         });
     }
 
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invites');
+        Schema::dropIfExists('role_permissions');
     }
 };

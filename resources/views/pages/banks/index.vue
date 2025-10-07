@@ -32,7 +32,7 @@ export default {
 <template>
     <AuthLayout>
         <ResourceTable
-            header="Банки>"
+            header="Банки"
             :href="route('banks.index')"
             :data="banks"
             :columns

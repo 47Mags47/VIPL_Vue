@@ -18,40 +18,49 @@ export default {
         meny() {
             return [
                 {
-                    title: 'Справочники',
                     ico: 'list',
                     childs: [
                         {
                             title: 'Подразделения',
                             href: route('divisions.index'),
-                            permission: 'test2',
+                            permission: 'division:viewAny',
                         },
                         {
                             title: 'Договора с банками',
                             href: route('bank-contracts.index'),
+                            permission: 'bank_contract:viewAny',
                         },
                         {
                             title: 'Банки',
                             href: route('banks.index'),
+                            permission: 'bank:viewAny',
                         },
                         {
                             title: 'Законы',
                             href: route('laws.index'),
+                            permission: 'law:viewAny',
                         },
                         {
                             title: 'Выплаты',
                             href: route('payments.index'),
+                            permission: 'payment:viewAny',
                         },
+                    ]
+                },
+                {
+                    ico: 'code',
+                    childs: [
                         {
                             title: 'Писатели',
                             href: route('writers.index'),
                             permission: 'writer:viewAny'
                         },
-                        {
-                            title: 'График выплат',
-                            href: route('payment-events.index'),
-                        },
                     ]
+                },
+                {
+                    title: 'График выплат',
+                    ico: 'calendar',
+                    href: route('payment-events.index'),
                 },
                 {
                     title: 'Пользователи',

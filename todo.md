@@ -1,7 +1,12 @@
 ### FRONT-END (задачи клиентской части)
 [ ] - Добавить в Select поиск
+[ ] - Переписать иконки на svg
 
 ### BACK-END (задачи серверной части)
+[x] - Раскидать Seeder'ы на основные и фейковые
+[x] - Добавить возможность передачи модели в метод hasRole модели User
+[x] - Добавить возможность передачи модели в метод hasPermission модели User
+[ ] - Настроить логирование по уровням 
 
 ### FULL-STACK (задачи, где необходимо вмешательство как во fron-end, так и в back-end)
 
@@ -21,7 +26,9 @@
         -   [ ] User (users) пользователи:
             -   Поля:
                 -   id (int 11)
-                -   full_name (string 255)
+                -   first_name (string 255)
+                -   last_name (string 255)
+                -   middle_name (string 255)
                 -   login (string 255)
                 -   email (nullable string 255)
                 -   password (string 255)
@@ -35,7 +42,7 @@
                 -   [ ] has many roles
                 -   [ ] has many permissions + roles throught permissions
                 -   [ ] has many divisions
-        -   [ ] UserRole (user_roles) роли пользователей:
+        -   [ ] Role (user_roles) роли пользователей:
             -   Поля:
                 -   id (int 11)
                 -   code (string 255)
@@ -44,14 +51,14 @@
                 -   updated_at (datetime)
             -   Связи:
                 -   [ ] has many permissions
-        -   [ ] UserPermission (user_permissions) резрешения пользователей:
+        -   [ ] Permission (user_permissions) резрешения пользователей:
             -   Поля:
                 -   id (int 11)
                 -   code (string 255)
                 -   name (string 255)
                 -   created_at (datetime)
                 -   updated_at (datetime)
-        -   [ ] UserToUserRole (user_to_user_role) связь пользователи - роли:
+        -   [ ] UserToRole (user_to_user_role) связь пользователи - роли:
             -   Поля:
                 -   id (int 11)
                 -   user_id (int 11 pivot users)
@@ -61,7 +68,7 @@
             -   Связи:
                 -   [ ] has one user
                 -   [ ] has one role
-        -   [ ] UserToUserPermission (user_to_user_permission) связь пользователи - разрешения:
+        -   [ ] UserToPermission (user_to_user_permission) связь пользователи - разрешения:
             -   Поля:
                 -   id (int 11)
                 -   user_id (int 11 pivot users)
@@ -71,7 +78,7 @@
             -   [ ] Связи:
                 -   [ ] has one user
                 -   [ ] has one permission
-        -   [ ] UserRoleToUserPermission (user_role_to_user_permission) связь роль - разрешения:
+        -   [ ] RoleToPermission (user_role_to_user_permission) связь роль - разрешения:
             -   Поля:
                 -   id (int 11)
                 -   role_id (int 11 pivot user_roles)
