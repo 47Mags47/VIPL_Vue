@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Classes\BaseModel;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -22,6 +23,15 @@ class PaymentEvent extends BaseModel
         return [
             'date' => 'date',
         ];
+    }
+
+    ### Ограничения
+    ##################################################
+    public function scopeHasAccess(Builder $builder){
+        if(user()->can('viewAny', self::class))
+            return $builder;
+
+        return $this->whereHas('status', fn($query) => $query->where('code', 'active'));
     }
 
     ### Методы

@@ -26,7 +26,7 @@ class PaymentEventController extends Controller
 
         return Inertia::render('pages/payment-events/index', [
             'month' => fn() => $monthStart->format('Y-m-d'),
-            'payment-events' => fn() => getResource(PaymentEvent::whereBetween('date', [$monthStart, $monthEnd])->orderBy('date'), 'full')
+            'payment-events' => fn() => getResource(PaymentEvent::whereBetween('date', [$monthStart, $monthEnd])->hasAccess()->orderBy('date'), 'full')
         ]);
     }
 
