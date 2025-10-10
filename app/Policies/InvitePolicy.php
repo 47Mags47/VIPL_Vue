@@ -13,4 +13,9 @@ class InvitePolicy
     {
         return $user->hasPermission('user:create');
     }
+
+    public function delete(): bool
+    {
+        return true;
+    }
 }

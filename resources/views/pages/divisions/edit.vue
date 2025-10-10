@@ -19,7 +19,7 @@ export default {
 <template>
     <Page>
         <ResourceForm
-            header="Редактировать запись (подращделение)"
+            header="Редактировать запись (организация)"
             sbm="Сохранить"
             method="put"
             :action="route('divisions.update', { division: division.id })"

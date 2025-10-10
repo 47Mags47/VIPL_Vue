@@ -9,6 +9,7 @@ use App\Http\Controllers\LawController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentEventController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\DivisionUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WriterController;
 use Illuminate\Support\Facades\Route;
@@ -30,13 +31,12 @@ Route::controller(SessionController::class)->name('session.')->group(function ()
     Route::post('/select-division', 'selectDivisionPost')->middleware('auth')->name('select-division.post');
 });
 
+Route::resource('/users',                               UserController::class)->only(['create', 'store']);
+
 Route::middleware(['auth', 'select-division'])->group(function () {
     Route::get('/dashboard',                            [DashboardController::class, 'index'])->name('dashboard.index');
 
-
     Route::resource('/divisions',                       DivisionController::class)->except(['show']);
-    Route::resource('/divisions/{division}/users',      UserController::class)->only(['index']);
-    Route::resource('/divisions/{division}/invites',    InviteController::class)->only(['create', 'store', 'destroy']);
 
     Route::resource('/writers',                         WriterController::class)->except(['show']);
     Route::resource('/bank-contracts',                  BankContractController::class)->except(['show']);
@@ -45,6 +45,8 @@ Route::middleware(['auth', 'select-division'])->group(function () {
     Route::resource('/laws',                            LawController::class)->except(['show']);
     Route::resource('/payments',                        PaymentController::class)->except(['show']);
     Route::resource('/payment-events',                  PaymentEventController::class)->except(['show']);
+
+    Route::resource('/division.users',                  DivisionUserController::class)->except(['show']);
 });
 
 // Route::middleware('guest')->group(function () {

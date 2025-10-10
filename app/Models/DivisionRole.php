@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Classes\BaseModel;
-use App\Classes\BasePivotModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\HasCode;
 
-class UserToDivision extends BasePivotModel
+class DivisionRole extends BaseModel
 {
+    use HasCode;
+
     ### Настройки
     ##################################################
-    public $timestamps = false;
+    //
 
     ### Методы
     ##################################################
@@ -18,7 +19,5 @@ class UserToDivision extends BasePivotModel
 
     ### Связи
     ##################################################
-    public function role():BelongsTo {
-        return $this->belongsTo(DivisionRole::class, 'role_id');
-    }
+    //
 }

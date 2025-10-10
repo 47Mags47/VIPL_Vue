@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Division;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class DivisionUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,6 +24,11 @@ class UserResource extends JsonResource
                 'id' => $this->status->id,
                 'name' => $this->status->name,
             ],
+            'role' => [
+                'id' => $this->pivot->role->id,
+                'code' => $this->pivot->role->code,
+                'name' => $this->pivot->role->name,
+            ]
         ];
     }
 }

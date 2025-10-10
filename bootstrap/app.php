@@ -9,7 +9,7 @@ return Application::configure(basePath: dirname(__DIR__))
         web: __DIR__ . '/../routes/web.php',
     )
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->job(new App\Jobs\Shedules\ClearInvitesJob, 'shedules')->daily();
+
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo(fn() => route('session.create'));

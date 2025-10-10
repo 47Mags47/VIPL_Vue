@@ -80,19 +80,17 @@
             {{ config('app.name') }}
         </div>
         <div class="text">
-            Вы приглашены в {{ config('app.name') }} на роль:
+            Вас пригласили в {{ config('app.name') }} <br>
+            Организация: {{ $invite->division->name }} <br>
+            На роль:
             <span class="role">
                 {{ $invite->role->name }}
-                {{-- {!! implode(', ', $user->roles->map(fn($role) => $role->name)->toArray()) !!} --}}
             </span><br>
         </div>
-        {{-- <div class="data">
-            Данные для входа:<br>
-            Логин: {{ $user->email }}<br>
-            Пароль: {{ $user->email }}<br>
-        </div> --}}
         <div class="accept-button-wrapper">
-            <a href="{{ route('users.create', ['token' => $invite->token]) }}" class="accept-button"
+            <a
+                href="{{ route('users.create', ['token' => $invite->token]) }}"
+                class="accept-button"
                 style="color: white;">
                 Подтвердить
             </a>

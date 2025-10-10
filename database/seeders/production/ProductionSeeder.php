@@ -22,6 +22,7 @@ class ProductionSeeder extends Seeder
         $this->call(WriterTypeSeeder::class);
         $this->call(WriterSeeder::class);
 
+        $this->call(DivisionRoleSeeder::class);
         $this->call(DivisionSeeder::class);
 
         $this->call(PaymentEventStatusSeeder::class);

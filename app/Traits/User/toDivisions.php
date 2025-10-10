@@ -3,6 +3,7 @@
 namespace App\Traits\User;
 
 use App\Models\Division;
+use App\Models\DivisionRole;
 use App\Models\UserToDivision;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -19,13 +20,17 @@ trait toDivisions
             return $this->divisions->pluck('id')->contains($division);
     }
 
-    public function addDivision(string|Division $division)
+    public function addDivision(string|Division $division, null|string|DivisionRole $role = 'worker')
     {
-        if ($division instanceof Division and !$this->hasDivision($division))
-            $this->divisions()->attach($division->id);
+        $division = $division instanceof Division
+            ? $division
+            : Division::whereKey($division)->first();
 
-        if (is_string($division) and !$this->hasDivision($division))
-            $this->divisions()->attach(Division::whereKey($division)->first()->id);
+        $role = $role instanceof DivisionRole
+            ? $role
+            : DivisionRole::byCode($role);
+
+        $this->divisions()->attach($division->id, ['role_id' => $role->id]);
 
         return $this;
     }
@@ -34,6 +39,8 @@ trait toDivisions
     ##################################################
     public function divisions(): BelongsToMany
     {
-        return $this->belongsToMany(Division::class, UserToDivision::getTableName(), 'user_id', 'division_id');
+        return $this
+            ->belongsToMany(Division::class, UserToDivision::class, 'user_id', 'division_id')
+            ->withPivot('role_id');
     }
 }

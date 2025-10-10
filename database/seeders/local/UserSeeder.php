@@ -18,11 +18,11 @@ class UserSeeder extends Seeder
     {
         Division::all()->each(function ($division) {
             User::factory()->create()
-                ->addDivision($division)
+                ->addDivision($division, 'admin')
                 ->addRole('division administrator');
 
             User::factory()->create()
-                ->addDivision($division)
+                ->addDivision($division, 'worker')
                 ->addRole('user');
         });
     }

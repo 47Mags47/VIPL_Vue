@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Division;
+use App\Models\DivisionRole;
 use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->string('token');
 
             $table->foreignId('division_id')->constrained(Division::getTableName());
-            $table->foreignId('role_id')->constrained(Role::getTableName());
+            $table->foreignId('role_id')->constrained(DivisionRole::getTableName());
 
             $table->timestamps();
         });

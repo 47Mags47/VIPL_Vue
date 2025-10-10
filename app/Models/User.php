@@ -12,6 +12,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,8 +52,22 @@ class User extends BaseModel implements
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('notRoot', function (Builder $builder) {
+            $builder->whereNot('login', 'root');
+        });
+    }
+
+    ### Ограничения
+    ##################################################
+    public function scopeWhereEmail(Builder $builder, string $email): Builder{
+        return $this->where('email', $email);
+    }
+
     ### Методы
     ##################################################
+
 
     ### Связи
     ##################################################
@@ -60,4 +75,5 @@ class User extends BaseModel implements
     {
         return $this->belongsTo(UserStatus::class, 'status_id');
     }
+
 }

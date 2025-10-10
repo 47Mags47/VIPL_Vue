@@ -20,6 +20,8 @@ export default {
         RedButton: defineAsyncComponent(() => import('../buttons/RedButton.vue')),
         Ico: defineAsyncComponent(() => import('../icons/Ico.vue')),
         BasePagination: defineAsyncComponent(() => import('../pagination/BasePagination.vue')),
+        Link: defineAsyncComponent(() => import('../Link.vue')),
+        Button: defineAsyncComponent(() => import('../Button.vue')),
     },
     props: {
         data: {
@@ -55,7 +57,7 @@ export default {
 
         hasDeleteButton: {
             type: [Function, Boolean],
-            default: () => true
+            default: true
         },
         OnDeleteButtonClick: {
             type: Function,
@@ -67,15 +69,11 @@ export default {
         },
         hasEditButton: {
             type: [Function, Boolean],
-            default: () => true
+            default: true
         },
         OnEditButtonClick: {
             type: Function,
-            default: (row) => {
-                let currentUrl = new URL(location.href)
-                let editUrl = currentUrl.origin + currentUrl.pathname + '/' + row.id + '/edit'
-                router.get(editUrl)
-            }
+            default: () => {}
         },
 
         links: {
@@ -83,7 +81,7 @@ export default {
             default: []
         },
 
-        hasPaginate:{
+        hasPaginate: {
             type: Boolean,
             default: true,
         }
@@ -135,8 +133,24 @@ export default {
             filterData: {
                 search: new URL(location.href).searchParams.get('filters[search]') ?? ''
             },
+            rows: 'data' in this.data
+                ? this.data.data
+                : this.data,
+            meta: 'meta' in this.data
+                ? this.data.meta
+                : null
         }
     },
+    watch: {
+        data(newData){
+            this.rows = 'data' in newData
+                ? newData.data
+                : newData,
+            this.meta = 'meta' in newData
+                ? newData.meta
+                : null
+        }
+    }
 }
 
 </script>
@@ -155,14 +169,18 @@ export default {
                     </template>
                 </div>
                 <div class="table-paginate-container">
-                    <BasePagination v-if="hasPaginate" :current="data.meta.current_page" :last="data.meta.last_page" />
+                    <BasePagination v-if="hasPaginate && meta !== null" :current="meta.current_page" :last="meta.last_page" />
                 </div>
                 <div class="table-actions-container">
                     <slot name="actions" />
-
-                    <BlueButton v-if="hasAddButton" class="add-button" :onClick="AddButtonClickHandler">
+                    <Link v-if="hasAddButton"
+                        class="add-button"
+                        color="blue"
+                        :href="`${localHref}/create`"
+                        :onClick="AddButtonClickHandler"
+                    >
                         <Ico type="plus" />
-                    </BlueButton>
+                    </Link>
                 </div>
             </div>
         </template>
@@ -173,7 +191,7 @@ export default {
                     {{ column.title }}
                 </TableTh>
 
-                <template v-if="data.data.length > 0">
+                <template v-if="rows.length > 0">
                     <TableTh v-if="typeof hasDeleteButton == 'function' ? true : hasDeleteButton" button />
                     <TableTh v-if="typeof hasEditButton == 'function' ? true : hasEditButton" button />
                 </template>
@@ -183,36 +201,65 @@ export default {
         </template>
 
         <template #tbody>
-            <TableRow v-for="row in data.data">
-                <TableTd v-for="column in columns" v-bind="getCellBinds(row, column)" />
-                <!-- <TableTd v-for="column in columns"
-                    v-bind="{ ...column, value: getObjectValue(column.dataIndex, row) }" /> -->
-
+            <TableRow v-for="(row, rowIndex) in rows"
+                :key="row.id ?? rowIndex"
+            >
+                <TableTd v-for="column in columns"
+                    v-bind="getCellBinds(row, column)"
+                />
 
                 <TableTd v-if="typeof hasDeleteButton == 'function' ? hasDeleteButton(row) : hasDeleteButton"
-                    vertical="center" horizontal="center">
-                    <RedButton :onClick="() => OnDeleteButtonClick(row)">
+                    vertical="center"
+                    horizontal="center"
+                >
+                    <Button
+                        color="red"
+                        :onClick="() => OnDeleteButtonClick(row)"
+                    >
                         <Ico type="trash" />
-                    </RedButton>
+                    </Button>
                 </TableTd>
 
                 <TableTd v-if="typeof hasEditButton == 'function' ? hasEditButton(row) : hasEditButton"
-                    vertical="center" horizontal="center">
-                    <BlueButton :onClick="() => OnEditButtonClick(row)">
+                    vertical="center"
+                    horizontal="center"
+                >
+                    <Link
+                        color="blue"
+                        :href="`${localHref}/${row.id}/edit`"
+                        :onClick="() => OnEditButtonClick(row)"
+                    >
                         <Ico type="pen" />
-                    </BlueButton>
+                    </Link>
                 </TableTd>
 
-                <TableTd v-for="link in links" vertical="center" horizontal="center">
-                    <BlueButton :onclick="() => link.onClick(row)">
+                <TableTd v-for="link in links"
+                    vertical="center"
+                    horizontal="center"
+                >
+                    <Link
+                        :href="typeof link.href === 'function' ? link.href(row) : link.href"
+                        :color="'color' in link ? link.color : 'blue'"
+                    >
                         <Ico :type="link.ico" />
-                    </BlueButton>
+                    </Link>
+
+                </TableTd>
+            </TableRow>
+            <TableRow v-if="rows.length === 0">
+                <TableTd :colspan="columns.length > 0 ? columns.length : 1" class="empty" horizontal="center" vertical="center">
+                    <Ico type="database" />
+                    <div class="shadow"></div>
+                    <span class="text">Упс... Тут пусто</span>
                 </TableTd>
             </TableRow>
         </template>
 
         <template #after>
-            <BasePagination v-if="hasPaginate" :current="data.meta.current_page" :last="data.meta.last_page" />
+            <BasePagination v-if="hasPaginate && meta !== null"
+                :current="meta.current_page"
+                :last="meta.last_page"
+            />
         </template>
     </BaseTable>
 </template>
@@ -236,12 +283,6 @@ export default {
                 grid-area: C
 
                 width: auto
-
-                // display: flex
-                // justify-content: center
-                // align-items: center
-
-
             .table-actions-container
                 grid-area: D
 
@@ -250,5 +291,27 @@ export default {
                 gap: 5px
                 .add-button
                     width: 40px
+    .table-container
+        .resource-table tbody
+            .empty .table-cell-container
+                padding: 50px 0
+                flex-direction: column
+                gap: 7px
+                color: #aaa
+                .ico
+                    position: relative
+                    width: 50px
+                    height: 50px
+                .shadow
+                    width: 70px
+                    height: 15px
+
+                    border-radius: 50%
+
+                    background: #eee
+                .text
+                    padding-top: 10px
+                    font-size: 1.2rem
+
 
 </style>

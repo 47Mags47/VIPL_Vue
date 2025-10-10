@@ -34,6 +34,9 @@ export default {
         value: {
             type: String,
             default: ''
+        },
+        class: {
+            type: String,
         }
     },
     computed: {
@@ -69,7 +72,7 @@ export default {
 </script>
 
 <template>
-    <td v-if="visible" :colspan :rowspan>
+    <td v-if="visible" :colspan :rowspan :class>
         <div class='table-cell-container' :style="styles">
             <template v-if="'default' in $slots">
                 <slot />

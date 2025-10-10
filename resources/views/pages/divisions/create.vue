@@ -13,7 +13,7 @@ export default {
 <template>
     <Page>
         <ResourceForm
-            header="Новая запись (подразделение)"
+            header="Новая запись (организация)"
             sbm="Добавить"
             :action="route('divisions.store')"
             :inputs="[

@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         ])
             ->setStatus('active')
             ->addRole('root')
-            ->addDivision(Division::where('name', 'root')->get()->first()->id);
+            ->addDivision(Division::where('name', 'root')->get()->first(), 'admin');
 
         User::factory()->create([
             'first_name'        => null,
@@ -43,6 +43,6 @@ class UserSeeder extends Seeder
         ])
             ->setStatus('active')
             ->addRole('program administrator')
-            ->addDivision(Division::where('name', 'root')->get()->first()->id);
+            ->addDivision(Division::where('name', 'root')->get()->first(), 'admin');
     }
 }

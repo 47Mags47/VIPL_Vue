@@ -22,7 +22,8 @@ export default {
         const links = [
             {
                 ico: 'user',
-                onClick: (row) => router.get(route('users.index', { division: row.id }))
+                href: (row) => route('division.users.index', { division: row.id })
+                // onClick: (row) => router.get(route('users.index', { division: row.id }))
             }
         ]
 
@@ -34,7 +35,7 @@ export default {
 <template>
     <AuthLayout>
         <ResourceTable
-            header="Подразделения"
+            header="Организации"
             :href="route('divisions.index')"
             :data="divisions"
             :columns

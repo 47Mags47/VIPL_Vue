@@ -26,11 +26,24 @@ export default {
                     value: invite.token
                 },
                 {
+                    type: 'hidden',
+                    name: 'division_id',
+                    value: invite.division.id
+                },
+
+                {
                     type: 'email',
                     label: 'E-mail',
                     name: 'email',
                     disabled: true,
                     value: invite.email
+                },
+                {
+                    type: 'string',
+                    label: 'Организация',
+                    name: 'division',
+                    disabled: true,
+                    value: invite.division.name
                 },
                 {
                     type: 'string',

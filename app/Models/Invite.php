@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Classes\BaseModel;
 use App\Mail\InviteMail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Mail;
@@ -15,19 +16,15 @@ class Invite extends BaseModel
 
     ### Настройки
     ##################################################
-    //
-    public static function boot()
-    {
-        parent::boot();
 
-        self::created(function ($model) {
-            Mail::to($model->email)->queue(new InviteMail($model));
-        });
+    ### Ограничения
+    ##################################################
+    public function scopeWhereToken(Builder $builder, string $token){
+        return $builder->where('token', $token);
     }
 
     ### Методы
     ##################################################
-    //
 
     ### Связи
     ##################################################
@@ -38,6 +35,6 @@ class Invite extends BaseModel
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(DivisionRole::class, 'role_id');
     }
 }

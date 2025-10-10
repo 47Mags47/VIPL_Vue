@@ -21,7 +21,7 @@ export default {
                     ico: 'list',
                     childs: [
                         {
-                            title: 'Подразделения',
+                            title: 'Организации',
                             href: route('divisions.index'),
                             permission: 'division:viewAny',
                         },
@@ -63,8 +63,8 @@ export default {
                     href: route('payment-events.index'),
                 },
                 {
-                    title: 'Пользователи',
-                    ico: 'users',
+                    title: 'Организация',
+                    ico: 'building',
                     href: route('banks.index'),
                 },
             ]
